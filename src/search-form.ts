@@ -33,7 +33,7 @@ export function renderSearchFormBlock(checkInDate?: string, checkOutDate?: strin
             <input id="max-price" type="text" value="" name="price" class="max-price" />
           </div>
           <div>
-            <div><button>Найти</button></div>
+            <div><button id="btn-search">Найти</button></div>
           </div>
         </div>
       </fieldset>
