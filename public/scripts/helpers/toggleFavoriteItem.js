@@ -1,0 +1,18 @@
+import { favoritePlaces } from "./getFavoritePlacesFromLocalStorage.js";
+export function toggleFavoriteItem(favoriteOne, id) {
+    if (favoritePlaces == null) {
+        if (favoriteOne.classList.contain('active')) {
+            favoriteOne.classList.remove('active');
+        }
+        else
+            return;
+    }
+    if (Array.isArray(favoritePlaces) && favoritePlaces.length > 0) {
+        favoritePlaces.forEach(favoriteItem => {
+            if (favoriteItem.id == id) {
+                favoriteOne.classList.add('active');
+            }
+        });
+    }
+}
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoidG9nZ2xlRmF2b3JpdGVJdGVtLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiLi4vLi4vLi4vc3JjL2hlbHBlcnMvdG9nZ2xlRmF2b3JpdGVJdGVtLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUNBLE9BQU8sRUFBRSxjQUFjLEVBQXFDLE1BQU0sd0NBQXdDLENBQUE7QUFHMUcsTUFBTSxVQUFVLGtCQUFrQixDQUFDLFdBQVcsRUFBRSxFQUFFO0lBRWhELElBQUksY0FBYyxJQUFJLElBQUksRUFBRTtRQUMxQixJQUFJLFdBQVcsQ0FBQyxTQUFTLENBQUMsT0FBTyxDQUFDLFFBQVEsQ0FBQyxFQUFFO1lBQzNDLFdBQVcsQ0FBQyxTQUFTLENBQUMsTUFBTSxDQUFDLFFBQVEsQ0FBQyxDQUFBO1NBQ3ZDOztZQUFNLE9BQU07S0FDZDtJQUVELElBQUksS0FBSyxDQUFDLE9BQU8sQ0FBQyxjQUFjLENBQUMsSUFBSSxjQUFjLENBQUMsTUFBTSxHQUFHLENBQUMsRUFBRTtRQUM5RCxjQUFjLENBQUMsT0FBTyxDQUFDLFlBQVksQ0FBQyxFQUFFO1lBQ3BDLElBQUksWUFBWSxDQUFDLEVBQUUsSUFBSSxFQUFFLEVBQUU7Z0JBQ3pCLFdBQVcsQ0FBQyxTQUFTLENBQUMsR0FBRyxDQUFDLFFBQVEsQ0FBQyxDQUFBO2FBQ3BDO1FBQ0gsQ0FBQyxDQUFDLENBQUE7S0FDSDtBQUNILENBQUMiLCJzb3VyY2VzQ29udGVudCI6WyJcbmltcG9ydCB7IGZhdm9yaXRlUGxhY2VzLCBnZXRGYXZvcml0ZVBsYWNlc0Zyb21Mb2NhbFN0b3JhZ2UgfSBmcm9tIFwiLi9nZXRGYXZvcml0ZVBsYWNlc0Zyb21Mb2NhbFN0b3JhZ2UuanNcIlxuXG5cbmV4cG9ydCBmdW5jdGlvbiB0b2dnbGVGYXZvcml0ZUl0ZW0oZmF2b3JpdGVPbmUsIGlkKSB7XG5cbiAgaWYgKGZhdm9yaXRlUGxhY2VzID09IG51bGwpIHtcbiAgICBpZiAoZmF2b3JpdGVPbmUuY2xhc3NMaXN0LmNvbnRhaW4oJ2FjdGl2ZScpKSB7XG4gICAgICBmYXZvcml0ZU9uZS5jbGFzc0xpc3QucmVtb3ZlKCdhY3RpdmUnKVxuICAgIH0gZWxzZSByZXR1cm5cbiAgfVxuXG4gIGlmIChBcnJheS5pc0FycmF5KGZhdm9yaXRlUGxhY2VzKSAmJiBmYXZvcml0ZVBsYWNlcy5sZW5ndGggPiAwKSB7XG4gICAgZmF2b3JpdGVQbGFjZXMuZm9yRWFjaChmYXZvcml0ZUl0ZW0gPT4ge1xuICAgICAgaWYgKGZhdm9yaXRlSXRlbS5pZCA9PSBpZCkge1xuICAgICAgICBmYXZvcml0ZU9uZS5jbGFzc0xpc3QuYWRkKCdhY3RpdmUnKVxuICAgICAgfVxuICAgIH0pXG4gIH1cbn1cblxuXG4iXX0=

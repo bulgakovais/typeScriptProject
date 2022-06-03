@@ -1,17 +1,6 @@
-import { search } from "./search.js"
-import { errorOrArray } from './errorOrArray'
+import { fetchPlaces } from './fetchPlaces.js'
+import { SearchFormData } from "./interfaces.js"
 
-export interface SearchFormData {
-  dateIn: string,
-  dateOut: string,
-  maxPrice: number
-}
-
-export interface Place {
-  params: string
-}
-
-export const placeArray: Place[] = []
 
 export function searchHandler() {
 
@@ -24,6 +13,10 @@ export function searchHandler() {
     dateOut: getdateOut,
     maxPrice: getmaxPrice
   }
+  fetchPlaces(getdateIn, getdateOut, getmaxPrice)
 
-  search(searchFormData, errorOrArray(placeArray, "Error"))
 }
+
+
+
+
