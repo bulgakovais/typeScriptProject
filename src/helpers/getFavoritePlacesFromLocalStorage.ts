@@ -1,11 +1,11 @@
-import { Place } from "./interfaces";
+// import { Place } from "./interfaces";
 
 
-export interface favoritePlaces extends Partial<Place> {
-  id?: number;
-  name?: string;
-  image?: string;
-}
+// interface favoritePlaces extends Partial<Place> {
+//   id?: number;
+//   name?: string;
+//   image?: string;
+// }
 
 export function getFavoritePlacesFromLocalStorage() {
 
@@ -21,6 +21,7 @@ export function getFavoritePlacesFromLocalStorage() {
   }
   else return favoritePlaces
 }
+export const favoritePlaces = getFavoritePlacesFromLocalStorage()
 // _________________________________________________________
 // Этот вариант функции возвращает let favoritePlaces: favoritePlaces[]
 // _________________________________________________________

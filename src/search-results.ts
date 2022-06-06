@@ -85,9 +85,10 @@ export function renderSearchResultsBlock(places: Place[]) {
   // функция сравнения массивов: из LocalStorage и выбранного по параметрам списка
   if (places.length) {
     arrayComparison(places)
+    nodeListPlace.addEventListener("click", (event) => { favoritesHandlerClick(event, places) })
   }
 
 
   // Запускаем слушатель события и обработчик события
-  nodeListPlace.addEventListener("click", (event) => { favoritesHandlerClick(event) })
+  // nodeListPlace.addEventListener("click", (event,places) => { favoritesHandlerClick(event) })
 }

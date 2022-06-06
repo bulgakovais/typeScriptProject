@@ -1,4 +1,4 @@
-import { fetchPlaces } from './fetchPlaces.js'
+import { fetchPlaces } from '../API/fetchPlaces.js'
 import { SearchFormData } from "./interfaces.js"
 
 
@@ -13,8 +13,7 @@ export function searchHandler() {
     dateOut: getdateOut,
     maxPrice: getmaxPrice
   }
-  fetchPlaces(getdateIn, getdateOut, getmaxPrice)
-
+  fetchPlaces(searchFormData)
 }
 
 
