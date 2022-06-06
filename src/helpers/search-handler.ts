@@ -1,12 +1,10 @@
 import { fetchPlaces } from '../API/fetchPlaces.js'
 import { SearchFormData } from "./interfaces.js"
-
+import { getSearchData } from "./getSearchData.js"
 
 export function searchHandler() {
 
-  const getdateIn = (<HTMLInputElement>document.getElementById('check-in-date')).value
-  const getdateOut = (<HTMLInputElement>document.getElementById('check-out-date')).value
-  const getmaxPrice = Number((<HTMLInputElement>document.getElementById('max-price')).value)
+  const { getdateIn, getdateOut, getmaxPrice } = getSearchData()
 
   const searchFormData: SearchFormData = {
     dateIn: getdateIn,

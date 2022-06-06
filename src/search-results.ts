@@ -3,6 +3,7 @@ import { Place } from './helpers/interfaces.js'
 import { renderBlock } from './lib.js'
 import { arrayComparison } from './helpers/arrayComparison.js'
 import { favoritesHandlerClick } from './helpers/favoritesHandlerClick.js'
+import { fetchToBookPlace } from './API/fetchToBookPlace.js'
 
 export function renderSearchStubBlock() {
   renderBlock(
@@ -49,7 +50,7 @@ export function renderSearchResultsBlock(places: Place[]) {
           <div class="result-info--descr">${place.description}</div>
           <div class="result-info--footer">
             <div>
-              <button>Забронировать</button>
+              <button data-placeId=${place.id} data-name=${place.name} class="btn-book-place">Забронировать</button>
             </div>
           </div>
         </div>
@@ -82,13 +83,21 @@ export function renderSearchResultsBlock(places: Place[]) {
   const nodeListPlace = document.querySelector('.results-list--js')
   nodeListPlace.insertAdjacentHTML('afterbegin', placesList)
 
-  // функция сравнения массивов: из LocalStorage и выбранного по параметрам списка
   if (places.length) {
+    // функция сравнения массивов: из LocalStorage и выбранного по параметрам списка
     arrayComparison(places)
-    nodeListPlace.addEventListener("click", (event) => { favoritesHandlerClick(event, places) })
+
+    // Запускаем слушатель события и обработчик события при клике на избранное
+    const favorites = document.querySelectorAll('.favorites');
+    favorites.forEach(fav => {
+      fav.addEventListener("click", (event) => { favoritesHandlerClick(event, places) })
+    })
   }
 
+  // Запускаем слушатель события и обработчик события при клике на кнопку "Забронировать"
+  const btnsBook = document.querySelectorAll('.btn-book-place')
+  btnsBook.forEach(btnBook => {
+    btnBook.addEventListener("click", (event) => { fetchToBookPlace(event) })
+  })
 
-  // Запускаем слушатель события и обработчик события
-  // nodeListPlace.addEventListener("click", (event,places) => { favoritesHandlerClick(event) })
 }
