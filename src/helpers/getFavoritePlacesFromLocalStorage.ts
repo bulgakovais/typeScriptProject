@@ -13,7 +13,7 @@ export function getFavoritePlacesFromLocalStorage() {
 
   if (favoritePlaces == null) {
     console.log(`dataNull: ${favoritePlaces}`)
-    return {}
+    return []
   }
   if (typeof favoritePlaces === 'object') {
     console.log(`dataObj: ${favoritePlaces}`)

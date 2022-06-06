@@ -83,7 +83,10 @@ export function renderSearchResultsBlock(places: Place[]) {
   nodeListPlace.insertAdjacentHTML('afterbegin', placesList)
 
   // функция сравнения массивов: из LocalStorage и выбранного по параметрам списка
-  arrayComparison(places)
+  if (places.length) {
+    arrayComparison(places)
+  }
+
 
   // Запускаем слушатель события и обработчик события
   nodeListPlace.addEventListener("click", (event) => { favoritesHandlerClick(event) })

@@ -1,29 +1,27 @@
-import { favoritePlaces, getFavoritePlacesFromLocalStorage } from "./getFavoritePlacesFromLocalStorage"
+import { getFavoritePlacesFromLocalStorage } from "./getFavoritePlacesFromLocalStorage"
 
 export function favoritesHandlerClick(event) {
   let targetHeart = event.target
   if (targetHeart.tagName != 'DIV') return
-  highlight(targetHeart)
+  toggleFavoriteItem(targetHeart)
 }
 
-// favoritePl - объект, та же загвоздка, что и в arrayComparison.ts
-// А для осуществления логики удаления/добавления в LStorage нужны 
-// методы массива..
 
-// let favoritePl = getFavoritePlacesFromLocalStorage()
-
-function highlight(listItem) {
+function toggleFavoriteItem(listItem) {
+  let favoritePlaces = getFavoritePlacesFromLocalStorage()
   if (listItem.classList.contains('active')) {
     listItem.classList.remove('active')
-    // favoritePl.forEach((favoritePlace) => {
-    //   if (favoritePlace.id === listItem.id)
-    //     localStorage.removeItem(`${favoritePlace}`)
+    if (Array.isArray(favoritePlaces)) {
+      const updatedFavorites: Array<{ id: string }> = favoritePlaces.filter((f) => f.id !== listItem.id)
+      localStorage.setItem('favoriteItems', JSON.stringify(updatedFavorites))
+    }
   }
   else {
     listItem.classList.add('active')
-    // const data = { id: listItem.id, name: listItem.name, image: listItem.image }
-    // favoritePl.push(data)
-    // const allData = JSON.stringify(favoritePl)
-    // localStorage.setItem('favoriteItems', allData)
+    const data = { id: listItem.id, name: listItem.name, image: listItem.image }
+    if (Array.isArray(favoritePlaces)) {
+      const allData = JSON.stringify([...favoritePlaces, data])
+      localStorage.setItem('favoriteItems', allData)
+    }
   }
 }
