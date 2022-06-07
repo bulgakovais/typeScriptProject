@@ -7,15 +7,15 @@ export function fetchToBookPlace(event) {
 
   const { getdateIn, getdateOut, } = getSearchData()
 
-  const placeId = event.target.dataset.placeid
-  const placeName = event.target.dataset.name
+  const placeId: number = event.target.dataset.placeid
+  const placeName: string = event.target.dataset.name
 
   const checkIn = new Date(getdateIn).getTime()
   const checkOut = new Date(getdateOut).getTime()
 
   // Получаем все даты между checkIn и checkOut в формате Unix
-  function allDate(checkIn, checkOut) {
-    let dateArr = []
+  function allDate(checkIn: number, checkOut: number) {
+    let dateArr: number[]
     for (let i = checkIn; i <= checkOut;) {
       dateArr.push(i)
 
@@ -26,9 +26,10 @@ export function fetchToBookPlace(event) {
   }
 
 
-  const allBookedData = allDate(checkIn, checkOut)
+  const allBookedData: number[] = allDate(checkIn, checkOut)
 
-  //
+  // Вопрос: Записывается в даты почему-то целая тонна чисел вместо передаваемого массива
+
   fetch(baseURL + `/places/${placeId}?checkInDate=${checkIn}&checkOutDate=${checkOut}`, {
     method: 'PATCH',
     headers: {
