@@ -12,11 +12,9 @@ export function getFavoritePlacesFromLocalStorage() {
   let favoritePlaces: unknown = JSON.parse(localStorage.getItem('favoriteItems'))
 
   if (favoritePlaces == null) {
-    console.log(`dataNull: ${favoritePlaces}`)
     return []
   }
   if (typeof favoritePlaces === 'object') {
-    console.log(`dataObj: ${favoritePlaces}`)
     return favoritePlaces
   }
   else return favoritePlaces

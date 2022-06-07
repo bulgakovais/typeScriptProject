@@ -16,6 +16,7 @@ export function fetchPlaces(searchFormData) {
   fetch(baseURL + `/places?coordinates=${coordinates}&checkInDate=${checkIn}&checkOutDate=${checkOut}&maxPrice=${searchFormData.maxPrice}`)
     .then(response => response.json())
     .then((data) => {
+      console.log(`data fetchPlaces ${data}`)
       data.forEach((dataItem) => {
         placeArray.push(dataItem)
       })
