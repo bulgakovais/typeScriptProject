@@ -53,6 +53,14 @@ p.name {
     align-items: center;
 }
 
+.fieldset {
+    border: none;
+    display: flex;
+    justify-content: space-between;
+    margin-left: 0;
+    padding-left: 0;
+}
+
 .heart-icon {
     background-image: url(../img/heart.png);
     background-repeat: no-repeat;
@@ -180,7 +188,7 @@ button {
 ul.results-list {
     list-style: none;
     margin: 0 16px;
-    padding: 0;
+    /* padding: 0; */
 }
 
 .result {

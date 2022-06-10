@@ -1,11 +1,15 @@
 {
-    "compilerOptions": {
-        "outDir": "public/scripts",
-        "target": "es2020",
-        "module": "es2020",
-        "moduleResolution": "node"
-    },
-    "files": [
-        "src/index.ts"
-    ]
+  "compilerOptions": {
+    "outDir": "public/scripts",
+    "target": "es2020",
+    "module": "es2020",
+    "moduleResolution": "node",
+    "allowJs": true //Позволяет компилятору включать js файлы в сборку 
+  },
+  "include": [
+    "src/**/*"
+  ]
+  // "files": [
+  //     "src/index.ts"
+  // ]
 }
