@@ -1,4 +1,5 @@
 
+
 class User {
   userName: string;
   userAvatarURL: string;
@@ -14,13 +15,23 @@ export function getUserData() {
     const noUser = new User("Пока пусто", "/img/img1.jpeg")
     return noUser
   }
-  // Так корректно приводить к объекту тип unknown?)Или есть другой способ?
-  else return Object(user)
+  if (typeof user === 'object') {
+    if ('userName' in user && 'userAvatarURL' in user) {
+      return user
+    }
+  }
+  else return user
 }
 
 
 export const getFavoritesAmount = () => {
+
   const favoritesAmount = Number(localStorage.getItem('favoritAmount'))
-  console.log(favoritesAmount)
-  return favoritesAmount
+
+  if (typeof Number(favoritesAmount) === 'number' && !isNaN(Number(favoritesAmount))) {
+    console.log(favoritesAmount)
+    return favoritesAmount
+  }
+
 }
+

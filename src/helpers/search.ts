@@ -1,4 +1,4 @@
-import { SearchFormData } from './search-handler'
+import { SearchFormData } from './interfaces.js'
 
 export function search(data: SearchFormData, cb) {
   console.log(data)

@@ -2,6 +2,8 @@ import { renderBlock } from './lib.js'
 
 export function renderUserBlock(user, favoritesCaption?) {
 
+  console.log(user)
+
   renderBlock(
     'user-block',
     `

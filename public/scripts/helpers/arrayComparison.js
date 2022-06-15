@@ -1,0 +1,15 @@
+import { getFavoritePlacesFromLocalStorage } from './getFavoritePlacesFromLocalStorage.js';
+export function arrayComparison(places) {
+    const favoritePlaces = getFavoritePlacesFromLocalStorage();
+    if (Array.isArray(favoritePlaces)) {
+        places.forEach(place => {
+            favoritePlaces.forEach((favoritePlace) => {
+                if (place.id === favoritePlace.id) {
+                    const heart = document.getElementById(`${place.id}`);
+                    heart.classList.add('active');
+                }
+            });
+        });
+    }
+}
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiYXJyYXlDb21wYXJpc29uLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiLi4vLi4vLi4vc3JjL2hlbHBlcnMvYXJyYXlDb21wYXJpc29uLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBLE9BQU8sRUFBRSxpQ0FBaUMsRUFBRSxNQUFNLHdDQUF3QyxDQUFDO0FBRTNGLE1BQU0sVUFBVSxlQUFlLENBQUMsTUFBTTtJQUNwQyxNQUFNLGNBQWMsR0FBRyxpQ0FBaUMsRUFBRSxDQUFBO0lBRTFELElBQUksS0FBSyxDQUFDLE9BQU8sQ0FBQyxjQUFjLENBQUMsRUFBRTtRQUNqQyxNQUFNLENBQUMsT0FBTyxDQUFDLEtBQUssQ0FBQyxFQUFFO1lBQ3JCLGNBQWMsQ0FBQyxPQUFPLENBQUMsQ0FBQyxhQUFhLEVBQUUsRUFBRTtnQkFDdkMsSUFBSSxLQUFLLENBQUMsRUFBRSxLQUFLLGFBQWEsQ0FBQyxFQUFFLEVBQUU7b0JBQ2pDLE1BQU0sS0FBSyxHQUFHLFFBQVEsQ0FBQyxjQUFjLENBQUMsR0FBRyxLQUFLLENBQUMsRUFBRSxFQUFFLENBQUMsQ0FBQTtvQkFDcEQsS0FBSyxDQUFDLFNBQVMsQ0FBQyxHQUFHLENBQUMsUUFBUSxDQUFDLENBQUE7aUJBQzlCO1lBQ0gsQ0FBQyxDQUFDLENBQUE7UUFDSixDQUFDLENBQUMsQ0FBQTtLQUNIO0FBRUgsQ0FBQyIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IGdldEZhdm9yaXRlUGxhY2VzRnJvbUxvY2FsU3RvcmFnZSB9IGZyb20gJy4vZ2V0RmF2b3JpdGVQbGFjZXNGcm9tTG9jYWxTdG9yYWdlLmpzJztcblxuZXhwb3J0IGZ1bmN0aW9uIGFycmF5Q29tcGFyaXNvbihwbGFjZXMpIHtcbiAgY29uc3QgZmF2b3JpdGVQbGFjZXMgPSBnZXRGYXZvcml0ZVBsYWNlc0Zyb21Mb2NhbFN0b3JhZ2UoKVxuXG4gIGlmIChBcnJheS5pc0FycmF5KGZhdm9yaXRlUGxhY2VzKSkge1xuICAgIHBsYWNlcy5mb3JFYWNoKHBsYWNlID0+IHtcbiAgICAgIGZhdm9yaXRlUGxhY2VzLmZvckVhY2goKGZhdm9yaXRlUGxhY2UpID0+IHtcbiAgICAgICAgaWYgKHBsYWNlLmlkID09PSBmYXZvcml0ZVBsYWNlLmlkKSB7XG4gICAgICAgICAgY29uc3QgaGVhcnQgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZChgJHtwbGFjZS5pZH1gKVxuICAgICAgICAgIGhlYXJ0LmNsYXNzTGlzdC5hZGQoJ2FjdGl2ZScpXG4gICAgICAgIH1cbiAgICAgIH0pXG4gICAgfSlcbiAgfVxuXG59XG5cbiJdfQ==
