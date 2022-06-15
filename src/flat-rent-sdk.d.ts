@@ -7,21 +7,18 @@ export interface DatabaseItem {
   title: string,
   details?: string,
   photos?: string[],
-  coordinates: number[],
+  coordinates?: number[],
   bookedDates: number[],
   totalPrice: number
 }
 
 export interface ParamsSearch {
   city?: string,
-  checkInDate?: Date,
-  checkOutDate?: Date,
-  priceLimit?: number
+  checkInDate: Date,
+  checkOutDate: Date,
+  priceLimit: number
 }
 
-export interface BookFlat {
-
-}
 
 export function cloneDate(str: string): object //return new Date
 
@@ -34,7 +31,7 @@ export const localStorageKey: string
 export class FlatRentSdk {
   get(id: string): Promise<Object | null>
 
-  search(params: ParamsSearch): DatabaseItem[]
+  search(params: ParamsSearch): Promise<DatabaseItem[]>
 
   book(flatId: number, checkInDate: Date, checkOutDate: Date): number
 

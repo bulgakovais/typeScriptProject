@@ -1,67 +1,84 @@
-import { defaultDateOff, defaultDateIn } from '../dates.js';
-import { baseURL } from "./index.js";
-import { renderSearchResultsBlock } from "../search-results.js";
-import { renderToast } from '../lib.js';
-import { FlatRentSdk } from "../flat-rent-sdk.js";
-import { setAllPlacesArr } from '../helpers/setAllPlacesArr.js';
-const myFlatRentSdk = new FlatRentSdk();
-export const placeArray = [];
-export let placeArraySdk = [];
-export function fetchPlaces(searchFormData) {
-    const coordinates = `59.9386,30.3141`;
-    const checkIn = new Date(searchFormData.dateIn).getTime() || new Date(defaultDateIn).getTime();
-    const checkOut = new Date(searchFormData.dateOut).getTime() || new Date(defaultDateOff).getTime();
-    const myParamsSearch = {
-        city: 'Санкт-Петербург',
-        checkInDate: new Date(searchFormData.dateIn),
-        checkOutDate: new Date(searchFormData.dateOut),
-        priceLimit: searchFormData.maxPrice
-    };
-    // Checkboxes
-    const chboxApi = document.querySelector("#search-api");
-    const chboxSdk = document.querySelector("#search-sdk");
-    if (checkIn && checkOut && searchFormData.maxPrice) {
-        if (chboxApi.checked || chboxSdk.checked) {
-            if (chboxApi.checked) {
-                fetch(baseURL + `/places?coordinates=${coordinates}&checkInDate=${checkIn}&checkOutDate=${checkOut}&maxPrice=${searchFormData.maxPrice}`)
-                    .then(response => response.json())
-                    .then((data) => {
-                    data.forEach((dataItem) => {
-                        placeArray.push(dataItem);
-                    });
-                    // Записываем данные в один общий массив
-                    const allPlaceArray = setAllPlacesArr(placeArray);
-                    renderSearchResultsBlock(allPlaceArray);
-                    return allPlaceArray;
-                });
-            }
-            // ВОПРОС
-            // Это вопрос, который я задавала в телеге:) метод search() библиотеки возвращает промис
-            // и чтобы достать данные нужен then(). Но по описанию метод должен вернуть массив 
-            // DataBaseItem[], у которого свойства then нет))
-            if (chboxSdk.checked) {
-                const result = myFlatRentSdk.search(myParamsSearch);
-                result.then((placeArraySdk) => {
-                    // Записываем данные в один общий массив
-                    const allPlaceArraySdk = setAllPlacesArr(placeArraySdk);
-                    // Если активны оба чекбокса, не запускаем рендер, т.к. он отработает в fetch
-                    // ВОПРОС: всегда ли fetch будет отрабатывать последним в данном случае?
-                    if (!chboxApi.checked) {
-                        renderSearchResultsBlock(allPlaceArraySdk);
-                    }
-                });
-            }
-        }
-    }
-    else
-        (renderToast({
-            text: [`Необходимо заполнить все поля`],
-            type: 'success'
-        }, {
-            name: 'Понятно',
-            handler: () => {
-                console.log(`Уведомление закрыто`);
-            }
-        }));
-}
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZmV0Y2hQbGFjZXMuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi8uLi8uLi9zcmMvQVBJL2ZldGNoUGxhY2VzLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUNBLE9BQU8sRUFBRSxjQUFjLEVBQUUsYUFBYSxFQUFFLE1BQU0sYUFBYSxDQUFBO0FBQzNELE9BQU8sRUFBRSxPQUFPLEVBQUUsTUFBTSxZQUFZLENBQUE7QUFDcEMsT0FBTyxFQUFFLHdCQUF3QixFQUFFLE1BQU0sc0JBQXNCLENBQUE7QUFFL0QsT0FBTyxFQUFFLFdBQVcsRUFBRSxNQUFNLFdBQVcsQ0FBQTtBQUN2QyxPQUFPLEVBQUUsV0FBVyxFQUE4QixNQUFNLHFCQUFxQixDQUFBO0FBQzdFLE9BQU8sRUFBRSxlQUFlLEVBQUUsTUFBTSwrQkFBK0IsQ0FBQTtBQUkvRCxNQUFNLGFBQWEsR0FBRyxJQUFJLFdBQVcsRUFBRSxDQUFBO0FBQ3ZDLE1BQU0sQ0FBQyxNQUFNLFVBQVUsR0FBWSxFQUFFLENBQUE7QUFDckMsTUFBTSxDQUFDLElBQUksYUFBYSxHQUFtQixFQUFFLENBQUE7QUFHN0MsTUFBTSxVQUFVLFdBQVcsQ0FBQyxjQUFjO0lBRXhDLE1BQU0sV0FBVyxHQUFHLGlCQUFpQixDQUFBO0lBQ3JDLE1BQU0sT0FBTyxHQUFHLElBQUksSUFBSSxDQUFDLGNBQWMsQ0FBQyxNQUFNLENBQUMsQ0FBQyxPQUFPLEVBQUUsSUFBSSxJQUFJLElBQUksQ0FBQyxhQUFhLENBQUMsQ0FBQyxPQUFPLEVBQUUsQ0FBQTtJQUM5RixNQUFNLFFBQVEsR0FBRyxJQUFJLElBQUksQ0FBQyxjQUFjLENBQUMsT0FBTyxDQUFDLENBQUMsT0FBTyxFQUFFLElBQUksSUFBSSxJQUFJLENBQUMsY0FBYyxDQUFDLENBQUMsT0FBTyxFQUFFLENBQUE7SUFFakcsTUFBTSxjQUFjLEdBQWlCO1FBQ25DLElBQUksRUFBRSxpQkFBaUI7UUFDdkIsV0FBVyxFQUFFLElBQUksSUFBSSxDQUFDLGNBQWMsQ0FBQyxNQUFNLENBQUM7UUFDNUMsWUFBWSxFQUFFLElBQUksSUFBSSxDQUFDLGNBQWMsQ0FBQyxPQUFPLENBQUM7UUFDOUMsVUFBVSxFQUFFLGNBQWMsQ0FBQyxRQUFRO0tBQ3BDLENBQUE7SUFDRCxhQUFhO0lBQ2IsTUFBTSxRQUFRLEdBQXFCLFFBQVEsQ0FBQyxhQUFhLENBQUMsYUFBYSxDQUFDLENBQUE7SUFDeEUsTUFBTSxRQUFRLEdBQXFCLFFBQVEsQ0FBQyxhQUFhLENBQUMsYUFBYSxDQUFDLENBQUE7SUFHeEUsSUFBSSxPQUFPLElBQUksUUFBUSxJQUFJLGNBQWMsQ0FBQyxRQUFRLEVBQUU7UUFDbEQsSUFBSSxRQUFRLENBQUMsT0FBTyxJQUFJLFFBQVEsQ0FBQyxPQUFPLEVBQUU7WUFFeEMsSUFBSSxRQUFRLENBQUMsT0FBTyxFQUFFO2dCQUNwQixLQUFLLENBQUMsT0FBTyxHQUFHLHVCQUF1QixXQUFXLGdCQUFnQixPQUFPLGlCQUFpQixRQUFRLGFBQWEsY0FBYyxDQUFDLFFBQVEsRUFBRSxDQUFDO3FCQUN0SSxJQUFJLENBQUMsUUFBUSxDQUFDLEVBQUUsQ0FBQyxRQUFRLENBQUMsSUFBSSxFQUFFLENBQUM7cUJBQ2pDLElBQUksQ0FBQyxDQUFDLElBQUksRUFBRSxFQUFFO29CQUViLElBQUksQ0FBQyxPQUFPLENBQUMsQ0FBQyxRQUFRLEVBQUUsRUFBRTt3QkFDeEIsVUFBVSxDQUFDLElBQUksQ0FBQyxRQUFRLENBQUMsQ0FBQTtvQkFDM0IsQ0FBQyxDQUFDLENBQUE7b0JBQ0Ysd0NBQXdDO29CQUN4QyxNQUFNLGFBQWEsR0FBYSxlQUFlLENBQUMsVUFBVSxDQUFDLENBQUE7b0JBRTNELHdCQUF3QixDQUFDLGFBQWEsQ0FBQyxDQUFBO29CQUN2QyxPQUFPLGFBQWEsQ0FBQTtnQkFDdEIsQ0FBQyxDQUFDLENBQUE7YUFDTDtZQUNELFNBQVM7WUFDVCx3RkFBd0Y7WUFDeEYsbUZBQW1GO1lBQ25GLGlEQUFpRDtZQUVqRCxJQUFJLFFBQVEsQ0FBQyxPQUFPLEVBQUU7Z0JBQ3BCLE1BQU0sTUFBTSxHQUFHLGFBQWEsQ0FBQyxNQUFNLENBQUMsY0FBYyxDQUFDLENBQUE7Z0JBQ25ELE1BQU0sQ0FBQyxJQUFJLENBQUMsQ0FBQyxhQUFhLEVBQUUsRUFBRTtvQkFFNUIsd0NBQXdDO29CQUN4QyxNQUFNLGdCQUFnQixHQUFhLGVBQWUsQ0FBQyxhQUFhLENBQUMsQ0FBQTtvQkFFakUsNkVBQTZFO29CQUM3RSx3RUFBd0U7b0JBQ3hFLElBQUksQ0FBQyxRQUFRLENBQUMsT0FBTyxFQUFFO3dCQUNyQix3QkFBd0IsQ0FBQyxnQkFBZ0IsQ0FBQyxDQUFBO3FCQUMzQztnQkFDSCxDQUFDLENBQUMsQ0FBQTthQUNIO1NBQ0Y7S0FDRjs7UUFDSSxDQUFDLFdBQVcsQ0FDZjtZQUNFLElBQUksRUFBRSxDQUFDLCtCQUErQixDQUFDO1lBQ3ZDLElBQUksRUFBRSxTQUFTO1NBQ2hCLEVBQ0Q7WUFDRSxJQUFJLEVBQUUsU0FBUztZQUNmLE9BQU8sRUFBRSxHQUFHLEVBQUU7Z0JBQ1osT0FBTyxDQUFDLEdBQUcsQ0FBQyxxQkFBcUIsQ0FBQyxDQUFBO1lBQ3BDLENBQUM7U0FDRixDQUFDLENBQUMsQ0FBQTtBQUVQLENBQUMiLCJzb3VyY2VzQ29udGVudCI6WyJcbmltcG9ydCB7IGRlZmF1bHREYXRlT2ZmLCBkZWZhdWx0RGF0ZUluIH0gZnJvbSAnLi4vZGF0ZXMuanMnXG5pbXBvcnQgeyBiYXNlVVJMIH0gZnJvbSBcIi4vaW5kZXguanNcIlxuaW1wb3J0IHsgcmVuZGVyU2VhcmNoUmVzdWx0c0Jsb2NrIH0gZnJvbSBcIi4uL3NlYXJjaC1yZXN1bHRzLmpzXCJcbmltcG9ydCB7IFBsYWNlIH0gZnJvbSAnLi4vaGVscGVycy9pbnRlcmZhY2VzLmpzJ1xuaW1wb3J0IHsgcmVuZGVyVG9hc3QgfSBmcm9tICcuLi9saWIuanMnXG5pbXBvcnQgeyBGbGF0UmVudFNkaywgUGFyYW1zU2VhcmNoLCBEYXRhYmFzZUl0ZW0gfSBmcm9tIFwiLi4vZmxhdC1yZW50LXNkay5qc1wiXG5pbXBvcnQgeyBzZXRBbGxQbGFjZXNBcnIgfSBmcm9tICcuLi9oZWxwZXJzL3NldEFsbFBsYWNlc0Fyci5qcydcblxuXG5cbmNvbnN0IG15RmxhdFJlbnRTZGsgPSBuZXcgRmxhdFJlbnRTZGsoKVxuZXhwb3J0IGNvbnN0IHBsYWNlQXJyYXk6IFBsYWNlW10gPSBbXVxuZXhwb3J0IGxldCBwbGFjZUFycmF5U2RrOiBEYXRhYmFzZUl0ZW1bXSA9IFtdXG5cblxuZXhwb3J0IGZ1bmN0aW9uIGZldGNoUGxhY2VzKHNlYXJjaEZvcm1EYXRhKSB7XG5cbiAgY29uc3QgY29vcmRpbmF0ZXMgPSBgNTkuOTM4NiwzMC4zMTQxYFxuICBjb25zdCBjaGVja0luID0gbmV3IERhdGUoc2VhcmNoRm9ybURhdGEuZGF0ZUluKS5nZXRUaW1lKCkgfHwgbmV3IERhdGUoZGVmYXVsdERhdGVJbikuZ2V0VGltZSgpXG4gIGNvbnN0IGNoZWNrT3V0ID0gbmV3IERhdGUoc2VhcmNoRm9ybURhdGEuZGF0ZU91dCkuZ2V0VGltZSgpIHx8IG5ldyBEYXRlKGRlZmF1bHREYXRlT2ZmKS5nZXRUaW1lKClcblxuICBjb25zdCBteVBhcmFtc1NlYXJjaDogUGFyYW1zU2VhcmNoID0ge1xuICAgIGNpdHk6ICfQodCw0L3QutGCLdCf0LXRgtC10YDQsdGD0YDQsycsXG4gICAgY2hlY2tJbkRhdGU6IG5ldyBEYXRlKHNlYXJjaEZvcm1EYXRhLmRhdGVJbiksXG4gICAgY2hlY2tPdXREYXRlOiBuZXcgRGF0ZShzZWFyY2hGb3JtRGF0YS5kYXRlT3V0KSxcbiAgICBwcmljZUxpbWl0OiBzZWFyY2hGb3JtRGF0YS5tYXhQcmljZVxuICB9XG4gIC8vIENoZWNrYm94ZXNcbiAgY29uc3QgY2hib3hBcGk6IEhUTUxJbnB1dEVsZW1lbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKFwiI3NlYXJjaC1hcGlcIilcbiAgY29uc3QgY2hib3hTZGs6IEhUTUxJbnB1dEVsZW1lbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKFwiI3NlYXJjaC1zZGtcIilcblxuXG4gIGlmIChjaGVja0luICYmIGNoZWNrT3V0ICYmIHNlYXJjaEZvcm1EYXRhLm1heFByaWNlKSB7XG4gICAgaWYgKGNoYm94QXBpLmNoZWNrZWQgfHwgY2hib3hTZGsuY2hlY2tlZCkge1xuXG4gICAgICBpZiAoY2hib3hBcGkuY2hlY2tlZCkge1xuICAgICAgICBmZXRjaChiYXNlVVJMICsgYC9wbGFjZXM/Y29vcmRpbmF0ZXM9JHtjb29yZGluYXRlc30mY2hlY2tJbkRhdGU9JHtjaGVja0lufSZjaGVja091dERhdGU9JHtjaGVja091dH0mbWF4UHJpY2U9JHtzZWFyY2hGb3JtRGF0YS5tYXhQcmljZX1gKVxuICAgICAgICAgIC50aGVuKHJlc3BvbnNlID0+IHJlc3BvbnNlLmpzb24oKSlcbiAgICAgICAgICAudGhlbigoZGF0YSkgPT4ge1xuXG4gICAgICAgICAgICBkYXRhLmZvckVhY2goKGRhdGFJdGVtKSA9PiB7XG4gICAgICAgICAgICAgIHBsYWNlQXJyYXkucHVzaChkYXRhSXRlbSlcbiAgICAgICAgICAgIH0pXG4gICAgICAgICAgICAvLyDQl9Cw0L/QuNGB0YvQstCw0LXQvCDQtNCw0L3QvdGL0LUg0LIg0L7QtNC40L0g0L7QsdGJ0LjQuSDQvNCw0YHRgdC40LJcbiAgICAgICAgICAgIGNvbnN0IGFsbFBsYWNlQXJyYXk6IG9iamVjdFtdID0gc2V0QWxsUGxhY2VzQXJyKHBsYWNlQXJyYXkpXG5cbiAgICAgICAgICAgIHJlbmRlclNlYXJjaFJlc3VsdHNCbG9jayhhbGxQbGFjZUFycmF5KVxuICAgICAgICAgICAgcmV0dXJuIGFsbFBsYWNlQXJyYXlcbiAgICAgICAgICB9KVxuICAgICAgfVxuICAgICAgLy8g0JLQntCf0KDQntChXG4gICAgICAvLyDQrdGC0L4g0LLQvtC/0YDQvtGBLCDQutC+0YLQvtGA0YvQuSDRjyDQt9Cw0LTQsNCy0LDQu9CwINCyINGC0LXQu9C10LPQtTopINC80LXRgtC+0LQgc2VhcmNoKCkg0LHQuNCx0LvQuNC+0YLQtdC60Lgg0LLQvtC30LLRgNCw0YnQsNC10YIg0L/RgNC+0LzQuNGBXG4gICAgICAvLyDQuCDRh9GC0L7QsdGLINC00L7RgdGC0LDRgtGMINC00LDQvdC90YvQtSDQvdGD0LbQtdC9IHRoZW4oKS4g0J3QviDQv9C+INC+0L/QuNGB0LDQvdC40Y4g0LzQtdGC0L7QtCDQtNC+0LvQttC10L0g0LLQtdGA0L3Rg9GC0Ywg0LzQsNGB0YHQuNCyIFxuICAgICAgLy8gRGF0YUJhc2VJdGVtW10sINGDINC60L7RgtC+0YDQvtCz0L4g0YHQstC+0LnRgdGC0LLQsCB0aGVuINC90LXRgikpXG5cbiAgICAgIGlmIChjaGJveFNkay5jaGVja2VkKSB7XG4gICAgICAgIGNvbnN0IHJlc3VsdCA9IG15RmxhdFJlbnRTZGsuc2VhcmNoKG15UGFyYW1zU2VhcmNoKVxuICAgICAgICByZXN1bHQudGhlbigocGxhY2VBcnJheVNkaykgPT4ge1xuXG4gICAgICAgICAgLy8g0JfQsNC/0LjRgdGL0LLQsNC10Lwg0LTQsNC90L3Ri9C1INCyINC+0LTQuNC9INC+0LHRidC40Lkg0LzQsNGB0YHQuNCyXG4gICAgICAgICAgY29uc3QgYWxsUGxhY2VBcnJheVNkazogb2JqZWN0W10gPSBzZXRBbGxQbGFjZXNBcnIocGxhY2VBcnJheVNkaylcblxuICAgICAgICAgIC8vINCV0YHQu9C4INCw0LrRgtC40LLQvdGLINC+0LHQsCDRh9C10LrQsdC+0LrRgdCwLCDQvdC1INC30LDQv9GD0YHQutCw0LXQvCDRgNC10L3QtNC10YAsINGCLtC6LiDQvtC9INC+0YLRgNCw0LHQvtGC0LDQtdGCINCyIGZldGNoXG4gICAgICAgICAgLy8g0JLQntCf0KDQntChOiDQstGB0LXQs9C00LAg0LvQuCBmZXRjaCDQsdGD0LTQtdGCINC+0YLRgNCw0LHQsNGC0YvQstCw0YLRjCDQv9C+0YHQu9C10LTQvdC40Lwg0LIg0LTQsNC90L3QvtC8INGB0LvRg9GH0LDQtT9cbiAgICAgICAgICBpZiAoIWNoYm94QXBpLmNoZWNrZWQpIHtcbiAgICAgICAgICAgIHJlbmRlclNlYXJjaFJlc3VsdHNCbG9jayhhbGxQbGFjZUFycmF5U2RrKVxuICAgICAgICAgIH1cbiAgICAgICAgfSlcbiAgICAgIH1cbiAgICB9XG4gIH1cbiAgZWxzZSAocmVuZGVyVG9hc3QoXG4gICAge1xuICAgICAgdGV4dDogW2DQndC10L7QsdGF0L7QtNC40LzQviDQt9Cw0L/QvtC70L3QuNGC0Ywg0LLRgdC1INC/0L7Qu9GPYF0sXG4gICAgICB0eXBlOiAnc3VjY2VzcydcbiAgICB9LFxuICAgIHtcbiAgICAgIG5hbWU6ICfQn9C+0L3Rj9GC0L3QvicsXG4gICAgICBoYW5kbGVyOiAoKSA9PiB7XG4gICAgICAgIGNvbnNvbGUubG9nKGDQo9Cy0LXQtNC+0LzQu9C10L3QuNC1INC30LDQutGA0YvRgtC+YClcbiAgICAgIH1cbiAgICB9KSlcblxufVxuXG5cblxuXG5cbiJdfQ==
+// import { defaultDateOff, defaultDateIn } from '../dates.js'
+// import { baseURL } from "./index.js"
+// import { renderSearchResultsBlock } from "../search-results.js"
+// import { Place } from '../store/domain/place.js'
+// import { renderToast } from '../lib.js'
+// import { FlatRentSdk, ParamsSearch, DatabaseItem } from "../flat-rent-sdk.js"
+// // Создаем общий массив данных 
+// let newArr: object[] = []
+// export function setAllPlacesArr(arr: object[]) {
+//   if (newArr.length > 0) {
+//     const filteredArr: object[] = newArr.filter((f) => {
+//       arr.forEach(a => {
+//         f.id != a.id
+//       })
+//     })
+//     newArr.push(...filteredArr)
+//   } else {
+//     newArr.push(...arr)
+//   }
+//   return newArr
+// }
+// const myFlatRentSdk = new FlatRentSdk()
+// let placeArray: Place[] = []
+// let placeArraySdk: DatabaseItem[] = []
+// export function fetchPlaces(searchFormData) {
+//   const coordinates = `59.9386,30.3141`
+//   const checkIn = new Date(searchFormData.dateIn).getTime() || new Date(defaultDateIn).getTime()
+//   const checkOut = new Date(searchFormData.dateOut).getTime() || new Date(defaultDateOff).getTime()
+//   const myParamsSearch: ParamsSearch = {
+//     city: 'Санкт-Петербург',
+//     checkInDate: new Date(searchFormData.dateIn),
+//     checkOutDate: new Date(searchFormData.dateOut),
+//     priceLimit: searchFormData.maxPrice
+//   }
+//   // Checkboxes
+//   const chboxApi: HTMLInputElement = document.querySelector("#search-api")
+//   const chboxSdk: HTMLInputElement = document.querySelector("#search-sdk")
+//   if (checkIn && checkOut && searchFormData.maxPrice) {
+//     if (chboxApi.checked || chboxSdk.checked) {
+//       if (chboxApi.checked) {
+//         fetch(baseURL + `/places?coordinates=${coordinates}&checkInDate=${checkIn}&checkOutDate=${checkOut}&maxPrice=${searchFormData.maxPrice}`)
+//           .then(response => response.json())
+//           .then((data) => {
+//             placeArray = []
+//             data.forEach((dataItem) => {
+//               placeArray.push(dataItem)
+//             })
+//             // Записываем данные в один общий массив
+//             const allPlaceArray: object[] = setAllPlacesArr(placeArray)
+//             renderSearchResultsBlock(allPlaceArray)
+//             return allPlaceArray
+//           })
+//       }
+//       // ВОПРОС
+//       // Это вопрос, который я задавала в телеге:) метод search() библиотеки возвращает промис
+//       // и чтобы достать данные нужен then(). Но по описанию метод должен вернуть массив 
+//       // DataBaseItem[], у которого свойства then нет))
+//       if (chboxSdk.checked) {
+//         const result = myFlatRentSdk.search(myParamsSearch)
+//         result.then((placeArraySdk) => {
+//           // Записываем данные в один общий массив
+//           const allPlaceArraySdk: object[] = setAllPlacesArr(placeArraySdk)
+//           // Если активны оба чекбокса, не запускаем рендер, т.к. он отработает в fetch
+//           // ВОПРОС: всегда ли fetch будет отрабатывать последним в данном случае?
+//           if (!chboxApi.checked) {
+//             renderSearchResultsBlock(allPlaceArraySdk)
+//           }
+//         })
+//       }
+//     }
+//   }
+//   else (renderToast(
+//     {
+//       text: [`Необходимо заполнить все поля`],
+//       type: 'success'
+//     },
+//     {
+//       name: 'Понятно',
+//       handler: () => {
+//         console.log(`Уведомление закрыто`)
+//       }
+//     }))
+// }
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZmV0Y2hQbGFjZXMuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi8uLi8uLi9zcmMvQVBJL2ZldGNoUGxhY2VzLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUNBLDhEQUE4RDtBQUM5RCx1Q0FBdUM7QUFDdkMsa0VBQWtFO0FBQ2xFLG1EQUFtRDtBQUNuRCwwQ0FBMEM7QUFDMUMsZ0ZBQWdGO0FBR2hGLGtDQUFrQztBQUNsQyw0QkFBNEI7QUFDNUIsbURBQW1EO0FBRW5ELDZCQUE2QjtBQUM3QiwyREFBMkQ7QUFDM0QsMkJBQTJCO0FBQzNCLHVCQUF1QjtBQUN2QixXQUFXO0FBQ1gsU0FBUztBQUNULGtDQUFrQztBQUNsQyxhQUFhO0FBQ2IsMEJBQTBCO0FBQzFCLE1BQU07QUFFTixrQkFBa0I7QUFDbEIsSUFBSTtBQUdKLDBDQUEwQztBQUMxQywrQkFBK0I7QUFDL0IseUNBQXlDO0FBR3pDLGdEQUFnRDtBQUVoRCwwQ0FBMEM7QUFDMUMsbUdBQW1HO0FBQ25HLHNHQUFzRztBQUV0RywyQ0FBMkM7QUFDM0MsK0JBQStCO0FBQy9CLG9EQUFvRDtBQUNwRCxzREFBc0Q7QUFDdEQsMENBQTBDO0FBQzFDLE1BQU07QUFDTixrQkFBa0I7QUFDbEIsNkVBQTZFO0FBQzdFLDZFQUE2RTtBQUc3RSwwREFBMEQ7QUFDMUQsa0RBQWtEO0FBRWxELGdDQUFnQztBQUNoQyxvSkFBb0o7QUFFcEosK0NBQStDO0FBQy9DLDhCQUE4QjtBQUU5Qiw4QkFBOEI7QUFFOUIsMkNBQTJDO0FBQzNDLDBDQUEwQztBQUMxQyxpQkFBaUI7QUFDakIsdURBQXVEO0FBQ3ZELDBFQUEwRTtBQUUxRSxzREFBc0Q7QUFDdEQsbUNBQW1DO0FBQ25DLGVBQWU7QUFDZixVQUFVO0FBQ1Ysa0JBQWtCO0FBQ2xCLGlHQUFpRztBQUNqRyw0RkFBNEY7QUFDNUYsMERBQTBEO0FBRTFELGdDQUFnQztBQUNoQyw4REFBOEQ7QUFDOUQsMkNBQTJDO0FBRTNDLHFEQUFxRDtBQUNyRCw4RUFBOEU7QUFFOUUsMEZBQTBGO0FBQzFGLHFGQUFxRjtBQUNyRixxQ0FBcUM7QUFDckMseURBQXlEO0FBQ3pELGNBQWM7QUFDZCxhQUFhO0FBQ2IsVUFBVTtBQUNWLFFBQVE7QUFDUixNQUFNO0FBQ04sdUJBQXVCO0FBQ3ZCLFFBQVE7QUFDUixpREFBaUQ7QUFDakQsd0JBQXdCO0FBQ3hCLFNBQVM7QUFDVCxRQUFRO0FBQ1IseUJBQXlCO0FBQ3pCLHlCQUF5QjtBQUN6Qiw2Q0FBNkM7QUFDN0MsVUFBVTtBQUNWLFVBQVU7QUFFVixJQUFJIiwic291cmNlc0NvbnRlbnQiOlsiXG4vLyBpbXBvcnQgeyBkZWZhdWx0RGF0ZU9mZiwgZGVmYXVsdERhdGVJbiB9IGZyb20gJy4uL2RhdGVzLmpzJ1xuLy8gaW1wb3J0IHsgYmFzZVVSTCB9IGZyb20gXCIuL2luZGV4LmpzXCJcbi8vIGltcG9ydCB7IHJlbmRlclNlYXJjaFJlc3VsdHNCbG9jayB9IGZyb20gXCIuLi9zZWFyY2gtcmVzdWx0cy5qc1wiXG4vLyBpbXBvcnQgeyBQbGFjZSB9IGZyb20gJy4uL3N0b3JlL2RvbWFpbi9wbGFjZS5qcydcbi8vIGltcG9ydCB7IHJlbmRlclRvYXN0IH0gZnJvbSAnLi4vbGliLmpzJ1xuLy8gaW1wb3J0IHsgRmxhdFJlbnRTZGssIFBhcmFtc1NlYXJjaCwgRGF0YWJhc2VJdGVtIH0gZnJvbSBcIi4uL2ZsYXQtcmVudC1zZGsuanNcIlxuXG5cbi8vIC8vINCh0L7Qt9C00LDQtdC8INC+0LHRidC40Lkg0LzQsNGB0YHQuNCyINC00LDQvdC90YvRhSBcbi8vIGxldCBuZXdBcnI6IG9iamVjdFtdID0gW11cbi8vIGV4cG9ydCBmdW5jdGlvbiBzZXRBbGxQbGFjZXNBcnIoYXJyOiBvYmplY3RbXSkge1xuXG4vLyAgIGlmIChuZXdBcnIubGVuZ3RoID4gMCkge1xuLy8gICAgIGNvbnN0IGZpbHRlcmVkQXJyOiBvYmplY3RbXSA9IG5ld0Fyci5maWx0ZXIoKGYpID0+IHtcbi8vICAgICAgIGFyci5mb3JFYWNoKGEgPT4ge1xuLy8gICAgICAgICBmLmlkICE9IGEuaWRcbi8vICAgICAgIH0pXG4vLyAgICAgfSlcbi8vICAgICBuZXdBcnIucHVzaCguLi5maWx0ZXJlZEFycilcbi8vICAgfSBlbHNlIHtcbi8vICAgICBuZXdBcnIucHVzaCguLi5hcnIpXG4vLyAgIH1cblxuLy8gICByZXR1cm4gbmV3QXJyXG4vLyB9XG5cblxuLy8gY29uc3QgbXlGbGF0UmVudFNkayA9IG5ldyBGbGF0UmVudFNkaygpXG4vLyBsZXQgcGxhY2VBcnJheTogUGxhY2VbXSA9IFtdXG4vLyBsZXQgcGxhY2VBcnJheVNkazogRGF0YWJhc2VJdGVtW10gPSBbXVxuXG5cbi8vIGV4cG9ydCBmdW5jdGlvbiBmZXRjaFBsYWNlcyhzZWFyY2hGb3JtRGF0YSkge1xuXG4vLyAgIGNvbnN0IGNvb3JkaW5hdGVzID0gYDU5LjkzODYsMzAuMzE0MWBcbi8vICAgY29uc3QgY2hlY2tJbiA9IG5ldyBEYXRlKHNlYXJjaEZvcm1EYXRhLmRhdGVJbikuZ2V0VGltZSgpIHx8IG5ldyBEYXRlKGRlZmF1bHREYXRlSW4pLmdldFRpbWUoKVxuLy8gICBjb25zdCBjaGVja091dCA9IG5ldyBEYXRlKHNlYXJjaEZvcm1EYXRhLmRhdGVPdXQpLmdldFRpbWUoKSB8fCBuZXcgRGF0ZShkZWZhdWx0RGF0ZU9mZikuZ2V0VGltZSgpXG5cbi8vICAgY29uc3QgbXlQYXJhbXNTZWFyY2g6IFBhcmFtc1NlYXJjaCA9IHtcbi8vICAgICBjaXR5OiAn0KHQsNC90LrRgi3Qn9C10YLQtdGA0LHRg9GA0LMnLFxuLy8gICAgIGNoZWNrSW5EYXRlOiBuZXcgRGF0ZShzZWFyY2hGb3JtRGF0YS5kYXRlSW4pLFxuLy8gICAgIGNoZWNrT3V0RGF0ZTogbmV3IERhdGUoc2VhcmNoRm9ybURhdGEuZGF0ZU91dCksXG4vLyAgICAgcHJpY2VMaW1pdDogc2VhcmNoRm9ybURhdGEubWF4UHJpY2Vcbi8vICAgfVxuLy8gICAvLyBDaGVja2JveGVzXG4vLyAgIGNvbnN0IGNoYm94QXBpOiBIVE1MSW5wdXRFbGVtZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3RvcihcIiNzZWFyY2gtYXBpXCIpXG4vLyAgIGNvbnN0IGNoYm94U2RrOiBIVE1MSW5wdXRFbGVtZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3RvcihcIiNzZWFyY2gtc2RrXCIpXG5cblxuLy8gICBpZiAoY2hlY2tJbiAmJiBjaGVja091dCAmJiBzZWFyY2hGb3JtRGF0YS5tYXhQcmljZSkge1xuLy8gICAgIGlmIChjaGJveEFwaS5jaGVja2VkIHx8IGNoYm94U2RrLmNoZWNrZWQpIHtcblxuLy8gICAgICAgaWYgKGNoYm94QXBpLmNoZWNrZWQpIHtcbi8vICAgICAgICAgZmV0Y2goYmFzZVVSTCArIGAvcGxhY2VzP2Nvb3JkaW5hdGVzPSR7Y29vcmRpbmF0ZXN9JmNoZWNrSW5EYXRlPSR7Y2hlY2tJbn0mY2hlY2tPdXREYXRlPSR7Y2hlY2tPdXR9Jm1heFByaWNlPSR7c2VhcmNoRm9ybURhdGEubWF4UHJpY2V9YClcblxuLy8gICAgICAgICAgIC50aGVuKHJlc3BvbnNlID0+IHJlc3BvbnNlLmpzb24oKSlcbi8vICAgICAgICAgICAudGhlbigoZGF0YSkgPT4ge1xuXG4vLyAgICAgICAgICAgICBwbGFjZUFycmF5ID0gW11cblxuLy8gICAgICAgICAgICAgZGF0YS5mb3JFYWNoKChkYXRhSXRlbSkgPT4ge1xuLy8gICAgICAgICAgICAgICBwbGFjZUFycmF5LnB1c2goZGF0YUl0ZW0pXG4vLyAgICAgICAgICAgICB9KVxuLy8gICAgICAgICAgICAgLy8g0JfQsNC/0LjRgdGL0LLQsNC10Lwg0LTQsNC90L3Ri9C1INCyINC+0LTQuNC9INC+0LHRidC40Lkg0LzQsNGB0YHQuNCyXG4vLyAgICAgICAgICAgICBjb25zdCBhbGxQbGFjZUFycmF5OiBvYmplY3RbXSA9IHNldEFsbFBsYWNlc0FycihwbGFjZUFycmF5KVxuXG4vLyAgICAgICAgICAgICByZW5kZXJTZWFyY2hSZXN1bHRzQmxvY2soYWxsUGxhY2VBcnJheSlcbi8vICAgICAgICAgICAgIHJldHVybiBhbGxQbGFjZUFycmF5XG4vLyAgICAgICAgICAgfSlcbi8vICAgICAgIH1cbi8vICAgICAgIC8vINCS0J7Qn9Cg0J7QoVxuLy8gICAgICAgLy8g0K3RgtC+INCy0L7Qv9GA0L7RgSwg0LrQvtGC0L7RgNGL0Lkg0Y8g0LfQsNC00LDQstCw0LvQsCDQsiDRgtC10LvQtdCz0LU6KSDQvNC10YLQvtC0IHNlYXJjaCgpINCx0LjQsdC70LjQvtGC0LXQutC4INCy0L7Qt9Cy0YDQsNGJ0LDQtdGCINC/0YDQvtC80LjRgVxuLy8gICAgICAgLy8g0Lgg0YfRgtC+0LHRiyDQtNC+0YHRgtCw0YLRjCDQtNCw0L3QvdGL0LUg0L3Rg9C20LXQvSB0aGVuKCkuINCd0L4g0L/QviDQvtC/0LjRgdCw0L3QuNGOINC80LXRgtC+0LQg0LTQvtC70LbQtdC9INCy0LXRgNC90YPRgtGMINC80LDRgdGB0LjQsiBcbi8vICAgICAgIC8vIERhdGFCYXNlSXRlbVtdLCDRgyDQutC+0YLQvtGA0L7Qs9C+INGB0LLQvtC50YHRgtCy0LAgdGhlbiDQvdC10YIpKVxuXG4vLyAgICAgICBpZiAoY2hib3hTZGsuY2hlY2tlZCkge1xuLy8gICAgICAgICBjb25zdCByZXN1bHQgPSBteUZsYXRSZW50U2RrLnNlYXJjaChteVBhcmFtc1NlYXJjaClcbi8vICAgICAgICAgcmVzdWx0LnRoZW4oKHBsYWNlQXJyYXlTZGspID0+IHtcblxuLy8gICAgICAgICAgIC8vINCX0LDQv9C40YHRi9Cy0LDQtdC8INC00LDQvdC90YvQtSDQsiDQvtC00LjQvSDQvtCx0YnQuNC5INC80LDRgdGB0LjQslxuLy8gICAgICAgICAgIGNvbnN0IGFsbFBsYWNlQXJyYXlTZGs6IG9iamVjdFtdID0gc2V0QWxsUGxhY2VzQXJyKHBsYWNlQXJyYXlTZGspXG5cbi8vICAgICAgICAgICAvLyDQldGB0LvQuCDQsNC60YLQuNCy0L3RiyDQvtCx0LAg0YfQtdC60LHQvtC60YHQsCwg0L3QtSDQt9Cw0L/Rg9GB0LrQsNC10Lwg0YDQtdC90LTQtdGALCDRgi7Qui4g0L7QvSDQvtGC0YDQsNCx0L7RgtCw0LXRgiDQsiBmZXRjaFxuLy8gICAgICAgICAgIC8vINCS0J7Qn9Cg0J7QoTog0LLRgdC10LPQtNCwINC70LggZmV0Y2gg0LHRg9C00LXRgiDQvtGC0YDQsNCx0LDRgtGL0LLQsNGC0Ywg0L/QvtGB0LvQtdC00L3QuNC8INCyINC00LDQvdC90L7QvCDRgdC70YPRh9Cw0LU/XG4vLyAgICAgICAgICAgaWYgKCFjaGJveEFwaS5jaGVja2VkKSB7XG4vLyAgICAgICAgICAgICByZW5kZXJTZWFyY2hSZXN1bHRzQmxvY2soYWxsUGxhY2VBcnJheVNkaylcbi8vICAgICAgICAgICB9XG4vLyAgICAgICAgIH0pXG4vLyAgICAgICB9XG4vLyAgICAgfVxuLy8gICB9XG4vLyAgIGVsc2UgKHJlbmRlclRvYXN0KFxuLy8gICAgIHtcbi8vICAgICAgIHRleHQ6IFtg0J3QtdC+0LHRhdC+0LTQuNC80L4g0LfQsNC/0L7Qu9C90LjRgtGMINCy0YHQtSDQv9C+0LvRj2BdLFxuLy8gICAgICAgdHlwZTogJ3N1Y2Nlc3MnXG4vLyAgICAgfSxcbi8vICAgICB7XG4vLyAgICAgICBuYW1lOiAn0J/QvtC90Y/RgtC90L4nLFxuLy8gICAgICAgaGFuZGxlcjogKCkgPT4ge1xuLy8gICAgICAgICBjb25zb2xlLmxvZyhg0KPQstC10LTQvtC80LvQtdC90LjQtSDQt9Cw0LrRgNGL0YLQvmApXG4vLyAgICAgICB9XG4vLyAgICAgfSkpXG5cbi8vIH1cblxuXG5cblxuXG4iXX0=

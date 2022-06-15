@@ -1,12 +1,11 @@
+import { renderUserBlock } from "../user.js"
 import { getFavoritePlacesFromLocalStorage } from "./getFavoritePlacesFromLocalStorage.js"
-import { fetchToBookPlace } from "../API/fetchToBookPlace.js"
+import { getFavoritesCaption, getUserData } from "./userData.js"
 
 
 export function favoritesHandlerClick(event, places) {
 
-
   if (event.target.classList.contains("btn-book-place'")) {
-    // fetchToBookPlace(event)
     console.log(event.target)
   }
   // Если нажали на значок избранного
@@ -21,22 +20,17 @@ export function favoritesHandlerClick(event, places) {
     })
     toggleFavoriteItem(targetHeart, targetPlace)
   }
-
-  // Если нажали на кнопку бронирования
-  // if (event.target.classList.contains("btn-book-place'")) {
-  //   // fetchToBookPlace(event)
-  //   console.log(event.target)
-  // }
 }
 
 function toggleFavoriteItem(listItem, targetPlace) {
-  let favoritePlaces = getFavoritePlacesFromLocalStorage()
+  let favoritePlaces: unknown[] = getFavoritePlacesFromLocalStorage()
   if (listItem.classList.contains('active')) {
     listItem.classList.remove('active')
     if (Array.isArray(favoritePlaces)) {
 
       const updatedFavorites: Array<{ id: number, name: string, image: string }> = favoritePlaces.filter((f) => f.id !== Number(listItem.id))
       localStorage.setItem('favoriteItems', JSON.stringify(updatedFavorites))
+
     }
   }
   else {
@@ -48,4 +42,8 @@ function toggleFavoriteItem(listItem, targetPlace) {
     }
   }
 
+  // Запускаем рендер <header> сайта
+  const user = getUserData()
+  const favoritesCaption = getFavoritesCaption()
+  renderUserBlock(user, favoritesCaption)
 }

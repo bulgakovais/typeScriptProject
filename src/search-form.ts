@@ -31,7 +31,7 @@ export function renderSearchFormBlock(checkInDate?: string, checkOutDate?: strin
           </div>
           <div>
             <label for="max-price">Макс. цена суток</label>
-            <input id="max-price" type="text" value="" name="price" class="max-price" />
+            <input id="max-price" type="text" value="10000" name="price" class="max-price" />
           </div>
         </div>
         <div class="row">
@@ -61,9 +61,3 @@ export function renderSearchFormBlock(checkInDate?: string, checkOutDate?: strin
   )
 
 }
-
-
-// // <div class="div-btn-search">
-// <div><button id="btn-search">Найти</button></div>    </div>
-// <div><button id="btn-search-sdk">Найти в базе SDK</button></div>
-// <div><button id="btn-search-sdk">Искать везде</button></div>

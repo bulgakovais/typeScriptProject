@@ -1,10 +1,12 @@
 
-import { Place } from './helpers/interfaces.js'
+import { Place } from './store/domain/place.js'
 import { renderBlock } from './lib.js'
 import { arrayComparison } from './helpers/arrayComparison.js'
 import { favoritesHandlerClick } from './helpers/favoritesHandlerClick.js'
 import { fetchToBookPlace } from './API/fetchToBookPlace.js'
 import { DatabaseItem } from "./flat-rent-sdk.js"
+import { renderUserBlock } from './user.js'
+import { getUserData, getFavoritesCaption } from './helpers/userData.js'
 
 
 
@@ -48,18 +50,18 @@ export function renderSearchResultsBlock(places) {
       <div class="result-container">
         <div class="result-img-container">
           <div id=${place.id} class="favorites"></div>
-          <img class="result-img" src=${place.image || place.photos[0]} alt="">
+          <img class="result-img" src=${place.image} alt="">
         </div>	
         <div class="result-info">
           <div class="result-info--header">
-            <p>${place.name || place.title}</p>
-            <p class="price">${place.price || place.totalPrice}</p>
+            <p>${place.name}</p>
+            <p class="price">${place.price}</p>
           </div>
           <div class="result-info--map"><i class="map-icon"></i> 2.5км от вас</div>
-          <div class="result-info--descr">${place.description || place.details}</div>
+          <div class="result-info--descr">${place.description}</div>
           <div class="result-info--footer">
             <div>
-              <button data-placeId=${place.id} data-name=${place.name || place.title} class="btn-book-place">Забронировать</button>
+              <button data-placeId=${place.id} data-name=${place.name} class="btn-book-place">Забронировать</button>
             </div>
           </div>
         </div>
@@ -67,8 +69,6 @@ export function renderSearchResultsBlock(places) {
     </li>`
 
     })
-    // const nodeListPlace = document.querySelector('.results-list--js')
-    // insertAdjacent(nodeListPlace, placesList)
 
   }
   renderBlock(
@@ -102,7 +102,9 @@ export function renderSearchResultsBlock(places) {
     // Запускаем слушатель события и обработчик события при клике на избранное
     const favorites = document.querySelectorAll('.favorites');
     favorites.forEach(fav => {
-      fav.addEventListener("click", (event) => { favoritesHandlerClick(event, places) })
+      fav.addEventListener("click", (event) => {
+        favoritesHandlerClick(event, places)
+      })
     })
   }
 

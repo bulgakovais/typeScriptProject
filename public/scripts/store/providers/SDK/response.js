@@ -1,0 +1,18 @@
+export {};
+// export interface SdkResponsePlace {
+//   errorMessage?: string
+//   item: DatabaseItem
+// }
+// export interface SdkResponsePlaceList {
+//   items: DatabaseItem[]
+// }
+// export interface sdkPlace extends DatabaseItem {
+//   id: string,
+//   title: string,
+//   details: string,
+//   photos: string[],
+//   coordinates: number[],
+//   bookedDates: number[],
+//   totalPrice: number
+// }
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoicmVzcG9uc2UuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi8uLi8uLi8uLi8uLi9zcmMvc3RvcmUvcHJvdmlkZXJzL1NESy9yZXNwb25zZS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiO0FBR0Esc0NBQXNDO0FBQ3RDLDBCQUEwQjtBQUMxQix1QkFBdUI7QUFDdkIsSUFBSTtBQUVKLDBDQUEwQztBQUUxQywwQkFBMEI7QUFDMUIsSUFBSTtBQUVKLG1EQUFtRDtBQUNuRCxnQkFBZ0I7QUFDaEIsbUJBQW1CO0FBQ25CLHFCQUFxQjtBQUNyQixzQkFBc0I7QUFDdEIsMkJBQTJCO0FBQzNCLDJCQUEyQjtBQUMzQix1QkFBdUI7QUFDdkIsSUFBSSIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IERhdGFiYXNlSXRlbSB9IGZyb20gXCIuLi8uLi8uLi9mbGF0LXJlbnQtc2RrXCI7XG5cblxuLy8gZXhwb3J0IGludGVyZmFjZSBTZGtSZXNwb25zZVBsYWNlIHtcbi8vICAgZXJyb3JNZXNzYWdlPzogc3RyaW5nXG4vLyAgIGl0ZW06IERhdGFiYXNlSXRlbVxuLy8gfVxuXG4vLyBleHBvcnQgaW50ZXJmYWNlIFNka1Jlc3BvbnNlUGxhY2VMaXN0IHtcblxuLy8gICBpdGVtczogRGF0YWJhc2VJdGVtW11cbi8vIH1cblxuLy8gZXhwb3J0IGludGVyZmFjZSBzZGtQbGFjZSBleHRlbmRzIERhdGFiYXNlSXRlbSB7XG4vLyAgIGlkOiBzdHJpbmcsXG4vLyAgIHRpdGxlOiBzdHJpbmcsXG4vLyAgIGRldGFpbHM6IHN0cmluZyxcbi8vICAgcGhvdG9zOiBzdHJpbmdbXSxcbi8vICAgY29vcmRpbmF0ZXM6IG51bWJlcltdLFxuLy8gICBib29rZWREYXRlczogbnVtYmVyW10sXG4vLyAgIHRvdGFsUHJpY2U6IG51bWJlclxuLy8gfVxuIl19
