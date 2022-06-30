@@ -15,7 +15,7 @@ export function favoritesHandlerClick(event, places) {
     let targetPlace: unknown = {}
     places.forEach(place => {
       if (place.id == targetHeart.id) {
-        targetPlace = place
+        return targetPlace = place
       }
     })
     toggleFavoriteItem(targetHeart, targetPlace)
@@ -28,7 +28,7 @@ function toggleFavoriteItem(listItem, targetPlace) {
     listItem.classList.remove('active')
     if (Array.isArray(favoritePlaces)) {
 
-      const updatedFavorites: Array<{ id: number, name: string, image: string }> = favoritePlaces.filter((f) => f.id !== Number(listItem.id))
+      const updatedFavorites: Array<{ id, name: string, image: string }> = favoritePlaces.filter((f) => f.id != listItem.id)
       localStorage.setItem('favoriteItems', JSON.stringify(updatedFavorites))
 
     }

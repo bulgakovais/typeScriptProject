@@ -53,7 +53,7 @@ export class APIProvider implements Provider {
   private convertPlaceResponse(item: apiPlace): Place {
     return new Place(
       APIProvider.provider,
-      Number(item.id),
+      String(item.id),
       item.name,
       item.description,
       item.image,

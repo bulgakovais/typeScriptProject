@@ -10,12 +10,10 @@ export class SDKProvider implements Provider {
   public static provider = 'SDK'
 
   public find(filter: SearchFormData): Promise<Place[]> {
-    return new Promise<Place[]>((resolve, reject) => {
-      const result = myFlatRentSdk.search(filter)
-      console.log(`Promise<Place[]>${result}`)
-      return result.then((data) => {
-        this.convertPlaceListResponse(data)
-      })
+    const result = myFlatRentSdk.search(filter)
+    console.log(`Promise<Place[]>${result}`)
+    return result.then((data) => {
+      return this.convertPlaceListResponse(data)
     })
   }
 
@@ -32,7 +30,7 @@ export class SDKProvider implements Provider {
     console.log(item)
     return new Place(
       SDKProvider.provider,
-      Number(item.id),
+      item.id,
       this.getName(item.title),
       this.getDescription(item.details),
       this.getImage(item.photos[0]),
@@ -49,12 +47,15 @@ export class SDKProvider implements Provider {
     return description
   }
   private getImage(image: string) {
-    return image
+    return `http://localhost:3040/img/${image}`
   }
   private getRemoteness(remoteness: number) {
     return remoteness
   }
   private getPrice(price: number) {
+    if (isNaN(price)) {
+      return price = 0
+    }
     return price
   }
 }

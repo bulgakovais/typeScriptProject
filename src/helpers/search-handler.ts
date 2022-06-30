@@ -5,6 +5,7 @@ import { SearchFormData } from "../store/domain/search-filter.js"
 import { APIProvider } from "../store/providers/Api/api-provider.js"
 import { SDKProvider } from '../store/providers/SDK/sdk-provider.js'
 import { getSearchData } from "./getSearchData.js"
+import { sortByPriceFirstMin } from "./sortHandler.js"
 
 export function searchHandler() {
 
@@ -19,39 +20,41 @@ export function searchHandler() {
 
   const sdkSearch = new SDKProvider()
   const apiSearch = new APIProvider()
+  //  Checkboxes
+  const chboxApi: HTMLInputElement = document.querySelector("#search-api")
+  const chboxSdk: HTMLInputElement = document.querySelector("#search-sdk")
 
 
-  function sortByPrice(one: Place, two: Place) {
-
-    if (one.price > two.price) {
-      return 1
-    } else if (one.price < two.price) {
-      return -1
-    } else {
-      return 0
-    }
+  function logicSearcher(provider) {
+    return provider.find(searchFormData).then((result) => {
+      result.sort(sortByPriceFirstMin)
+      renderSearchResultsBlock(result)
+    })
   }
 
-  // ---------------------------------------------------
-  // ?? Не запускается код начиная с then() на 38 строке
-  // ---------------------------------------------------
 
-  Promise.all([
-    apiSearch.find(searchFormData),
-    sdkSearch.find(searchFormData)
-  ]).then((results) => {
-    console.log(results)
-    // мерджим все результаты в один
-    const allResults: Place[] = [].concat(results[0], results[1])
-    console.log(allResults)
-    // работаем с ними как с единым целым
-    allResults.sort(sortByPrice)
-    console.log(allResults)
-    renderSearchResultsBlock(allResults)
-  })
+  if (getdateIn && getdateOut && searchFormData.priceLimit) {
+    if (chboxApi.checked && chboxSdk.checked) {
 
+      return Promise.all([
+        apiSearch.find(searchFormData),
+        sdkSearch.find(searchFormData)
+      ]).then((results) => {
+        // мерджим все результаты в один
+        const allResults: Place[] = [].concat(results[0], results[1])
+        // работаем с ними как с единым целым
+        allResults.sort(sortByPriceFirstMin)
+        renderSearchResultsBlock(allResults)
+      })
+    }
+
+    if (chboxApi.checked) {
+      logicSearcher(apiSearch)
+    }
+
+    if (chboxSdk.checked) {
+      logicSearcher(sdkSearch)
+    }
+
+  }
 }
-
-
-
-

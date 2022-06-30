@@ -1,24 +1,17 @@
 
 
-
-// export interface SearchFormData {
-//   dateIn: string,
-//   dateOut: string,
-//   maxPrice: number
-// }
-
 export class Place {
   constructor(
     private readonly provider: string,
-    public readonly originalId: number,
+    public readonly originalId: string,
     public name: string,
     public readonly description: string,
     public readonly image: string,
-    public readonly remoteness: number,
+    public readonly price: number,
     public readonly bookedDates: number[],
-    public readonly price: number
+    public readonly remoteness: number,
   ) { }
-  get id() {
+  get id(): string {
     return this.provider + '-' + this.originalId
   }
   public isProvidedBy(providerName: string): boolean {
@@ -29,13 +22,3 @@ export class Place {
   }
 }
 
-
-// export interface Place {
-//   id: number,
-//   name: string,
-//   description: string,
-//   image: string,
-//   remoteness: number,
-//   bookedDates: number[],
-//   price: number
-// }

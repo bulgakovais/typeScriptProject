@@ -68,7 +68,7 @@ export class FlatRentSdk {
             return item.id === id
         })
 
-        return Promise.resolve(flat == null ? flat : this._formatFlatObject(flat))
+        // return Promise.resolve(flat == null ? flat : this._formatFlatObject(flat))
     }
 
     /**
@@ -101,7 +101,7 @@ export class FlatRentSdk {
 
                 if (parameters.priceLimit != null) {
                     flats = flats.filter((flat) => {
-                        return flat.price <= parameters.priceLimit
+                        return flat.totalPrice <= parameters.priceLimit
                     })
                 }
 
@@ -110,9 +110,9 @@ export class FlatRentSdk {
                     return this._areAllDatesAvailable(flat, dateRange)
                 })
 
-                flats = flats.map((flat) => {
-                    return this._formatFlatObject(flat, dateRange.length - 1)
-                })
+                // flats = flats.map((flat) => {
+                //     return this._formatFlatObject(flat, dateRange.length - 1)
+                // })
 
                 return resolve(flats)
             } catch (error) {
@@ -221,20 +221,20 @@ export class FlatRentSdk {
         })
     }
 
-    _formatFlatObject(flat, nightNumber) {
-        const formattedFlat = Object.assign({}, flat)
+    // _formatFlatObject(flat, nightNumber) {
+    //     const formattedFlat = Object.assign({}, flat)
 
-        formattedFlat.photos = formattedFlat.photos.map((photoUrl) => {
-            return `http://localhost:${backendPort}/img/${photoUrl}`
-        })
+    //     formattedFlat.photos = formattedFlat.photos.map((photoUrl) => {
+    //         return `http://localhost:${backendPort}/img/${photoUrl}`
+    //     })
 
-        if (nightNumber != null) {
-            formattedFlat.totalPrice = nightNumber * formattedFlat.price
-            delete formattedFlat.price
-        }
+    //     if (nightNumber != null) {
+    //         formattedFlat.totalPrice = Number(nightNumber * formattedFlat.price)
+    //         delete formattedFlat.price
+    //     }
 
-        return formattedFlat
-    }
+    //     return formattedFlat
+    // }
 
     _readDatabase() {
         const data = window.localStorage.getItem(localStorageKey)

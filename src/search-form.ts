@@ -59,5 +59,4 @@ export function renderSearchFormBlock(checkInDate?: string, checkOutDate?: strin
     </form>
     `
   )
-
 }

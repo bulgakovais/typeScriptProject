@@ -150,6 +150,9 @@ button {
     color: #fff;
     cursor: pointer;
 }
+button:hover {
+    background-color: #518cda;
+}
 
 .results {
     margin-top: 20px;

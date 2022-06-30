@@ -1,6 +1,5 @@
 
 
-
 export interface SearchFormData {
   city?: string;
   checkInDate: Date,
