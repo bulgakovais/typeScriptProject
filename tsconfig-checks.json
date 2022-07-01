@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    // Строгий режим 
+    "alwaysStrict": true,
+    // отсутствие переменных типа any
+    "noImplicitAny": true,
+    // отсутствие переменных типа null/undefined
+    "strictNullChecks": true,
+    // свойства, объявленные в классе проинициализованы во время из объявления
+    "strictPropertyInitialization": true,
+    // более строгий контроль сигнатур функций
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "noImplicitThis": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true
+  }
+}

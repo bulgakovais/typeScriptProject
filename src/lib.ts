@@ -1,9 +1,11 @@
-export function renderBlock(elementId, html) {
+import { renderToastAction, renderToastMessage } from "./interfaces"
+
+export function renderBlock(elementId: string, html: string) {
   const element = document.getElementById(elementId)
   element.innerHTML = html
 }
 
-export function renderToast(message, action?) {
+export function renderToast(message: renderToastMessage, action?: renderToastAction) {
   let messageText = ''
 
   if (message != null) {

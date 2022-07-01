@@ -21,7 +21,7 @@ export function sortByPriceFirstMax(one: Place, two: Place) {
   }
 }
 
-export function selectToSelectedOption(places, sortSelect) {
+export function selectToSelectedOption(places: Place[], sortSelect) {
   // Выбранный элемент
   let selectedOption: HTMLElement = sortSelect.options[sortSelect.selectedIndex]
 

@@ -25,7 +25,6 @@ export function getUserData() {
 
 // Получить из LocalStorage длинну массива Избранного
 export const getFavoritesCaption = () => {
-  const data = JSON.parse(localStorage.getItem('favoriteItems'))
   const favoritesCaption = (JSON.parse(localStorage.getItem('favoriteItems'))).length
   console.log(favoritesCaption)
   if (typeof favoritesCaption === 'number' && !isNaN(favoritesCaption)) {

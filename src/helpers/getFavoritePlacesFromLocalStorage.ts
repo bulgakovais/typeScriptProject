@@ -1,12 +1,15 @@
+import { favoritePlaceInterface } from "./favoritesHandlerClick.js"
+
 
 export function getFavoritePlacesFromLocalStorage() {
 
-  let favoritePlaces: unknown[] = JSON.parse(localStorage.getItem('favoriteItems'))
+  let favoritePlaces: favoritePlaceInterface[] = JSON.parse(localStorage.getItem('favoriteItems'))
 
   if (favoritePlaces == null) {
     return []
   }
-  if (typeof favoritePlaces === 'object') {
+
+  if (Array.isArray(favoritePlaces)) {
     return favoritePlaces
   }
   else return favoritePlaces

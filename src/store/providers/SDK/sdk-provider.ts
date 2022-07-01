@@ -9,7 +9,7 @@ export class SDKProvider implements Provider {
 
   public static provider = 'SDK'
 
-  public find(filter: SearchFormData): Promise<Place[]> {
+  public async find(filter: SearchFormData): Promise<Place[]> {
     const result = myFlatRentSdk.search(filter)
     console.log(`Promise<Place[]>${result}`)
     return result.then((data) => {

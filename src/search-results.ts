@@ -3,14 +3,13 @@ import { renderBlock } from './lib.js'
 import { arrayComparison } from './helpers/arrayComparison.js'
 import { favoritesHandlerClick } from './helpers/favoritesHandlerClick.js'
 import { fetchToBookPlace } from './API/fetchToBookPlace.js'
-
 import { selectToSelectedOption } from './helpers/sortHandler.js'
+import { Place } from './store/domain/place.js'
 
 
-export function insertAdjacent(element, arr) {
+export function insertAdjacent(element: Element, arr: string) {
   element.insertAdjacentHTML("afterbegin", arr)
 }
-
 
 
 export function renderSearchStubBlock() {
@@ -25,7 +24,7 @@ export function renderSearchStubBlock() {
   )
 }
 
-export function renderEmptyOrErrorSearchBlock(reasonMessage) {
+export function renderEmptyOrErrorSearchBlock(reasonMessage: string) {
   renderBlock(
     'search-results-block',
     `
@@ -37,7 +36,7 @@ export function renderEmptyOrErrorSearchBlock(reasonMessage) {
   )
 }
 
-export function renderSearchResultsBlock(places) {
+export function renderSearchResultsBlock(places: Place[]) {
 
   let placesList = ''
 

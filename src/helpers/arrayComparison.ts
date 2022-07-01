@@ -1,6 +1,7 @@
+import { Place } from '../store/domain/place.js';
 import { getFavoritePlacesFromLocalStorage } from './getFavoritePlacesFromLocalStorage.js';
 
-export function arrayComparison(places) {
+export function arrayComparison(places: Place[]) {
   const favoritePlaces = getFavoritePlacesFromLocalStorage()
 
   if (Array.isArray(favoritePlaces)) {
