@@ -7,7 +7,6 @@ import { searchHandler } from './helpers/search-handler.js'
 const favoritesCaption = getFavoritesCaption()
 const user = getUserData()
 
-
 window.addEventListener('DOMContentLoaded', () => {
 
   renderUserBlock(user, favoritesCaption)

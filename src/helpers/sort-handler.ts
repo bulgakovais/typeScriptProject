@@ -21,19 +21,17 @@ export function sortByPriceFirstMax(one: Place, two: Place) {
   }
 }
 
-export function selectToSelectedOption(places: Place[], sortSelect) {
-  // Выбранный элемент
-  let selectedOption: HTMLElement = sortSelect.options[sortSelect.selectedIndex]
+export function selectToSelectedOption(places: Place[], sortSelect: HTMLSelectElement) {
 
-  if (selectedOption.classList.contains('firstMin')) {
-    selectedOption.setAttribute("selected", "selected")
+  let selectedOption: HTMLOptionElement = sortSelect.options[sortSelect.selectedIndex]
+  const selectedValue: string = selectedOption.value
+  if (selectedValue === 'cheap') {
     places.sort(sortByPriceFirstMin)
   }
-  else if (selectedOption.classList.contains('firstMax')) {
-    selectedOption.setAttribute("selected", "selected")
+  else if (selectedValue === 'expensive') {
     places.sort(sortByPriceFirstMax)
-
   }
+
   renderSearchResultsBlock(places)
 }
 
