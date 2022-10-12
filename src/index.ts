@@ -1,13 +1,11 @@
 import { renderSearchFormBlock } from './search-form.js'
 import { renderSearchStubBlock } from './search-results.js'
 import { renderUserBlock } from './user.js'
-// import { renderToast } from './lib.js'
 import { getUserData, getFavoritesCaption } from './helpers/userData.js'
 import { searchHandler } from './helpers/search-handler.js'
 
-const favoritesCaption = getFavoritesCaption()
+const favoritesCaption = getFavoritesCaption() || undefined
 const user = getUserData()
-
 
 window.addEventListener('DOMContentLoaded', () => {
 
@@ -16,12 +14,12 @@ window.addEventListener('DOMContentLoaded', () => {
   renderSearchStubBlock()
 
   const btnSearch = document.getElementById("btn-search")
-
-  btnSearch.addEventListener<"click">("click", (event: any) => {
-    event.preventDefault()
-    searchHandler()
-
-  })
+  if (btnSearch != null) {
+    btnSearch.addEventListener<"click">("click", (event: Event) => {
+      event.preventDefault()
+      searchHandler()
+    })
+  }
 
 })
 

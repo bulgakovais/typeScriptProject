@@ -1,9 +1,13 @@
-export function renderBlock(elementId, html) {
+import { renderToastAction, renderToastMessage } from "./interfaces"
+
+export function renderBlock(elementId: string, html: string) {
   const element = document.getElementById(elementId)
-  element.innerHTML = html
+  if (element != null) {
+    element.innerHTML = html
+  }
 }
 
-export function renderToast(message, action?) {
+export function renderToast(message: renderToastMessage, action?: renderToastAction) {
   let messageText = ''
 
   if (message != null) {
@@ -26,7 +30,10 @@ export function renderToast(message, action?) {
       if (action != null && action.handler != null) {
         action.handler()
       }
-      renderToast(null)
+      renderToast({
+        text: ['Ошибка'],
+        type: 'error'
+      })
     }
   }
 }

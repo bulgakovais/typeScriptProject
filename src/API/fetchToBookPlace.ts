@@ -3,12 +3,12 @@ import { getSearchData } from "../helpers/getSearchData.js"
 import { renderToast } from "../lib.js"
 
 
-export function fetchToBookPlace(event) {
+export function fetchToBookPlace(event: Event) {
 
   const { getdateIn, getdateOut, } = getSearchData()
-
-  const placeId: number = event.target.dataset.placeid
-  const placeName: string = event.target.dataset.name
+  const element = event.target as HTMLElement;
+  const placeId: number = Number(element.dataset.placeid)
+  const placeName = element.dataset.name
 
   const checkIn = new Date(getdateIn).getTime()
   const checkOut = new Date(getdateOut).getTime()

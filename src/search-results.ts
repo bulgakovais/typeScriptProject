@@ -3,14 +3,13 @@ import { renderBlock } from './lib.js'
 import { arrayComparison } from './helpers/arrayComparison.js'
 import { favoritesHandlerClick } from './helpers/favoritesHandlerClick.js'
 import { fetchToBookPlace } from './API/fetchToBookPlace.js'
+import { selectToSelectedOption } from './helpers/sort-handler.js'
+import { Place } from './store/domain/place.js'
 
-import { selectToSelectedOption } from './helpers/sortHandler.js'
 
-
-export function insertAdjacent(element, arr) {
+export function insertAdjacent(element: Element, arr: string) {
   element.insertAdjacentHTML("afterbegin", arr)
 }
-
 
 
 export function renderSearchStubBlock() {
@@ -25,7 +24,7 @@ export function renderSearchStubBlock() {
   )
 }
 
-export function renderEmptyOrErrorSearchBlock(reasonMessage) {
+export function renderEmptyOrErrorSearchBlock(reasonMessage: string) {
   renderBlock(
     'search-results-block',
     `
@@ -36,8 +35,31 @@ export function renderEmptyOrErrorSearchBlock(reasonMessage) {
     `
   )
 }
+export function renderSearchResultsHeader(places: Place[]) {
 
-export function renderSearchResultsBlock(places) {
+  renderBlock(
+    'search-results-header-block',
+    `
+    <div class="search-results-header">
+        <p>Результаты поиска</p>
+        <div class="search-results-filter">
+            <span><i class="icon icon-filter"></i> Сортировать:</span>
+            <select id="select">
+                <option class="option" value="cheap">Сначала дешёвые</option>
+                <option class="option" value="expensive">Сначала дорогие</option>
+                
+            </select>
+        </div>
+     </div>`
+  )
+  // Запускаем слушатель изменения сортировки
+  let sortSelect: HTMLSelectElement | null = document.querySelector('#select')
+  if (sortSelect != null) {
+    sortSelect.addEventListener('change', () => { selectToSelectedOption(places, sortSelect) })
+  }
+}
+
+export function renderSearchResultsBlock(places: Place[]) {
 
   let placesList = ''
 
@@ -73,25 +95,15 @@ export function renderSearchResultsBlock(places) {
   renderBlock(
     'search-results-block',
     `
-    <div class="search-results-header">
-        <p>Результаты поиска</p>
-        <div class="search-results-filter">
-            <span><i class="icon icon-filter"></i> Сортировать:</span>
-            <select id="select">
-                <option class="option firstMin" >Сначала дешёвые</option>
-                <option class="option firstMax" >Сначала дорогие</option>
-                
-            </select>
-        </div>
-    </div>
     <ul class="results-list results-list--js">
      
     </ul>
     `
   )
   const nodeListPlace = document.querySelector('.results-list--js')
-
-  insertAdjacent(nodeListPlace, placesList)
+  if (nodeListPlace != null) {
+    insertAdjacent(nodeListPlace, placesList)
+  }
 
 
   if (places.length) {
@@ -112,11 +124,6 @@ export function renderSearchResultsBlock(places) {
   btnsBook.forEach(btnBook => {
     btnBook.addEventListener("click", (event) => { fetchToBookPlace(event) })
   })
-
-  // Запускаем слушатель изменения сортировки
-
-  let sortSelect = document.querySelector('#select')
-  sortSelect.addEventListener('change', () => { selectToSelectedOption(places, sortSelect) })
 
 }
 

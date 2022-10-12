@@ -51,7 +51,7 @@ export class FlatRentSdk {
 
   _readDatabase(): object
 
-  _writeDatabase(database: DatabaseItem)
+  _writeDatabase(database: DatabaseItem): DatabaseItem
 
-  _syncDatabase(database: DatabaseItem)
+  _syncDatabase(database: DatabaseItem): DatabaseItem
 }

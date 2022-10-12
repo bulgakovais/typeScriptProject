@@ -11,7 +11,7 @@ export class APIProvider implements Provider {
   public static provider = 'API'
 
   private static apiUrl = 'http://localhost:3030'
-  public find(filter: SearchFormData): Promise<Place[]> {
+  public async find(filter: SearchFormData): Promise<Place[]> {
 
     return HttpHelper.fetchAsJson<apiPlace[]>(
       APIProvider.apiUrl + '/places?' + this.convertFilterToQueryString(filter)
@@ -24,7 +24,7 @@ export class APIProvider implements Provider {
       })
   }
 
-  public getById(id: string): Promise<Place> {
+  public async getById(id: string): Promise<Place> {
     return HttpHelper.fetchAsJson<apiPlace>(APIProvider.apiUrl + '/places/' +
       id)
       .then((response) => {

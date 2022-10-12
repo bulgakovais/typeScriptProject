@@ -6,14 +6,11 @@ export abstract class HttpHelper {
   * Метод выполняет запрос и преобразует ответ в JSON
   * Тип ответа будет взять из дженерик параметра Response
   */
-  public static fetchAsJson<Response>(input: RequestInfo, init?: RequestInit):
+  public static async fetchAsJson<Response>(input: RequestInfo, init?: RequestInit):
     Promise<Response> {
-    return fetch(input, init)
-      .then((response) => {
-        return response.text()
-      })
-      .then<Response>((responseText) => {
-        return JSON.parse(responseText)
-      })
+    const response = await fetch(input, init)
+    const responseText = await response.text()
+    const result: Response = JSON.parse(responseText)
+    return result
   }
 }
