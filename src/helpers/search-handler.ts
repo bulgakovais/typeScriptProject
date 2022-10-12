@@ -1,6 +1,5 @@
 
 import { renderSearchResultsBlock, renderSearchResultsHeader } from "../search-results.js"
-import { Place } from "../store/domain/place.js"
 import { Provider } from "../store/domain/provider.js"
 import { SearchFormData } from "../store/domain/search-filter.js"
 import { APIProvider } from "../store/providers/Api/api-provider.js"
@@ -22,8 +21,8 @@ export async function searchHandler(): Promise<void> {
   const sdkSearch = new SDKProvider()
   const apiSearch = new APIProvider()
   //  Checkboxes
-  const chboxApi: HTMLInputElement = document.querySelector("#search-api")
-  const chboxSdk: HTMLInputElement = document.querySelector("#search-sdk")
+  const chboxApi: HTMLInputElement | null = document.querySelector("#search-api")
+  const chboxSdk: HTMLInputElement | null = document.querySelector("#search-sdk")
 
 
   async function logicSearcher(provider: Provider): Promise<void> {
@@ -35,29 +34,32 @@ export async function searchHandler(): Promise<void> {
 
 
   if (getdateIn && getdateOut && searchFormData.priceLimit) {
-    if (chboxApi.checked && chboxSdk.checked) {
+    if (chboxApi && chboxSdk != null) {
+      if (chboxApi.checked && chboxSdk.checked) {
+        // мерджим все результаты в один
+        const [allResults] = [...await Promise.all([
+          apiSearch.find(searchFormData),
+          sdkSearch.find(searchFormData)
+        ])]
 
-      const results = await Promise.all([
-        apiSearch.find(searchFormData),
-        sdkSearch.find(searchFormData)
-      ])
-      // мерджим все результаты в один
-      const allResults: Place[] = [].concat(results[0], results[1])
-      // работаем с ними как с единым целым
-      allResults.sort(sortByPriceFirstMin)
-      renderSearchResultsHeader(allResults)
-      renderSearchResultsBlock(allResults)
-      return
+        // работаем с ними как с единым целым
+        allResults.sort(sortByPriceFirstMin)
+        renderSearchResultsHeader(allResults)
+        renderSearchResultsBlock(allResults)
+        return
+      }
     }
-
-    if (chboxApi.checked) {
-      logicSearcher(apiSearch)
-      return
+    if (chboxApi != null) {
+      if (chboxApi.checked) {
+        logicSearcher(apiSearch)
+        return
+      }
     }
-
-    if (chboxSdk.checked) {
-      logicSearcher(sdkSearch)
-      return
+    if (chboxSdk != null) {
+      if (chboxSdk.checked) {
+        logicSearcher(sdkSearch)
+        return
+      }
     }
 
   }

@@ -19,7 +19,6 @@ export class SDKProvider implements Provider {
 
 
   private convertPlaceListResponse(response: DatabaseItem[]): Place[] {
-    console.log(response)
     return response.map((item) => {
 
       return this.convertPlaceResponse(item)
@@ -27,17 +26,18 @@ export class SDKProvider implements Provider {
   }
 
   private convertPlaceResponse(item: DatabaseItem): Place {
-    console.log(item)
+
     return new Place(
       SDKProvider.provider,
       item.id,
       this.getName(item.title),
-      this.getDescription(item.details),
-      this.getImage(item.photos[0]),
+      this.getDescription(item.details || 'описание отсутствует'),
+      this.getImage(item.photos ? item.photos[0] : "здесь скоро будет фото"),
       this.getPrice(item.totalPrice),
       item.bookedDates,
       this.getRemoteness(0)
     )
+
   }
 
   private getName(name: string): string {

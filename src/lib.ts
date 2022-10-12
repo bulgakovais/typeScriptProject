@@ -2,7 +2,9 @@ import { renderToastAction, renderToastMessage } from "./interfaces"
 
 export function renderBlock(elementId: string, html: string) {
   const element = document.getElementById(elementId)
-  element.innerHTML = html
+  if (element != null) {
+    element.innerHTML = html
+  }
 }
 
 export function renderToast(message: renderToastMessage, action?: renderToastAction) {
@@ -28,7 +30,10 @@ export function renderToast(message: renderToastMessage, action?: renderToastAct
       if (action != null && action.handler != null) {
         action.handler()
       }
-      renderToast(null)
+      renderToast({
+        text: ['Ошибка'],
+        type: 'error'
+      })
     }
   }
 }

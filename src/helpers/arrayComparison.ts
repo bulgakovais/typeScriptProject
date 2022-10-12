@@ -9,7 +9,9 @@ export function arrayComparison(places: Place[]) {
       favoritePlaces.forEach((favoritePlace) => {
         if (place.id === favoritePlace.id) {
           const heart = document.getElementById(`${place.id}`)
-          heart.classList.add('active')
+          if (heart != null) {
+            heart.classList.add('active')
+          }
         }
       })
     })

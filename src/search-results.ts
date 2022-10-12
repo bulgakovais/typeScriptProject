@@ -53,9 +53,10 @@ export function renderSearchResultsHeader(places: Place[]) {
      </div>`
   )
   // Запускаем слушатель изменения сортировки
-  let sortSelect: HTMLSelectElement = document.querySelector('#select')
-  sortSelect.addEventListener('change', () => { selectToSelectedOption(places, sortSelect) })
-
+  let sortSelect: HTMLSelectElement | null = document.querySelector('#select')
+  if (sortSelect != null) {
+    sortSelect.addEventListener('change', () => { selectToSelectedOption(places, sortSelect) })
+  }
 }
 
 export function renderSearchResultsBlock(places: Place[]) {
@@ -100,8 +101,9 @@ export function renderSearchResultsBlock(places: Place[]) {
     `
   )
   const nodeListPlace = document.querySelector('.results-list--js')
-
-  insertAdjacent(nodeListPlace, placesList)
+  if (nodeListPlace != null) {
+    insertAdjacent(nodeListPlace, placesList)
+  }
 
 
   if (places.length) {

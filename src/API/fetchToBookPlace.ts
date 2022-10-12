@@ -8,7 +8,7 @@ export function fetchToBookPlace(event: Event) {
   const { getdateIn, getdateOut, } = getSearchData()
   const element = event.target as HTMLElement;
   const placeId: number = Number(element.dataset.placeid)
-  const placeName: string = element.dataset.name
+  const placeName = element.dataset.name
 
   const checkIn = new Date(getdateIn).getTime()
   const checkOut = new Date(getdateOut).getTime()

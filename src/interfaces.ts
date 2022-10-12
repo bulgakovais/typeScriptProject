@@ -1,6 +1,4 @@
 
-
-
 export interface renderToastMessage {
   text: string[],
   type: string
