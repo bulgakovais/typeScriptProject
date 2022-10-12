@@ -1,9 +1,17 @@
 
-import { Place } from './helpers/interfaces.js'
 import { renderBlock } from './lib.js'
 import { arrayComparison } from './helpers/arrayComparison.js'
 import { favoritesHandlerClick } from './helpers/favoritesHandlerClick.js'
 import { fetchToBookPlace } from './API/fetchToBookPlace.js'
+
+import { selectToSelectedOption } from './helpers/sortHandler.js'
+
+
+export function insertAdjacent(element, arr) {
+  element.insertAdjacentHTML("afterbegin", arr)
+}
+
+
 
 export function renderSearchStubBlock() {
   renderBlock(
@@ -29,7 +37,7 @@ export function renderEmptyOrErrorSearchBlock(reasonMessage) {
   )
 }
 
-export function renderSearchResultsBlock(places: Place[]) {
+export function renderSearchResultsBlock(places) {
 
   let placesList = ''
 
@@ -58,7 +66,9 @@ export function renderSearchResultsBlock(places: Place[]) {
     </li>`
 
     })
+
   }
+
 
   renderBlock(
     'search-results-block',
@@ -67,10 +77,10 @@ export function renderSearchResultsBlock(places: Place[]) {
         <p>Результаты поиска</p>
         <div class="search-results-filter">
             <span><i class="icon icon-filter"></i> Сортировать:</span>
-            <select>
-                <option selected="">Сначала дешёвые</option>
-                <option selected="">Сначала дорогие</option>
-                <option>Сначала ближе</option>
+            <select id="select">
+                <option class="option firstMin" >Сначала дешёвые</option>
+                <option class="option firstMax" >Сначала дорогие</option>
+                
             </select>
         </div>
     </div>
@@ -79,9 +89,10 @@ export function renderSearchResultsBlock(places: Place[]) {
     </ul>
     `
   )
-  // Получаем UL из DOM дерева и вставляем в него наш список
   const nodeListPlace = document.querySelector('.results-list--js')
-  nodeListPlace.insertAdjacentHTML('afterbegin', placesList)
+
+  insertAdjacent(nodeListPlace, placesList)
+
 
   if (places.length) {
     // функция сравнения массивов: из LocalStorage и выбранного по параметрам списка
@@ -90,7 +101,9 @@ export function renderSearchResultsBlock(places: Place[]) {
     // Запускаем слушатель события и обработчик события при клике на избранное
     const favorites = document.querySelectorAll('.favorites');
     favorites.forEach(fav => {
-      fav.addEventListener("click", (event) => { favoritesHandlerClick(event, places) })
+      fav.addEventListener("click", (event) => {
+        favoritesHandlerClick(event, places)
+      })
     })
   }
 
@@ -100,4 +113,10 @@ export function renderSearchResultsBlock(places: Place[]) {
     btnBook.addEventListener("click", (event) => { fetchToBookPlace(event) })
   })
 
+  // Запускаем слушатель изменения сортировки
+
+  let sortSelect = document.querySelector('#select')
+  sortSelect.addEventListener('change', () => { selectToSelectedOption(places, sortSelect) })
+
 }
+

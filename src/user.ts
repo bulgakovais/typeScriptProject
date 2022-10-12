@@ -3,7 +3,7 @@ import { renderBlock } from './lib.js'
 export function renderUserBlock(user, favoritesCaption?) {
 
   console.log(user)
-
+  console.log(favoritesCaption)
   renderBlock(
     'user-block',
     `

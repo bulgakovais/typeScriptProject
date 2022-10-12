@@ -23,14 +23,13 @@ export function getUserData() {
   else return user
 }
 
-
-export const getFavoritesAmount = () => {
-
-  const favoritesAmount = Number(localStorage.getItem('favoritAmount'))
-
-  if (typeof Number(favoritesAmount) === 'number' && !isNaN(Number(favoritesAmount))) {
-    console.log(favoritesAmount)
-    return favoritesAmount
+// Получить из LocalStorage длинну массива Избранного
+export const getFavoritesCaption = () => {
+  const data = JSON.parse(localStorage.getItem('favoriteItems'))
+  const favoritesCaption = (JSON.parse(localStorage.getItem('favoriteItems'))).length
+  console.log(favoritesCaption)
+  if (typeof favoritesCaption === 'number' && !isNaN(favoritesCaption)) {
+    return favoritesCaption
   }
 
 }

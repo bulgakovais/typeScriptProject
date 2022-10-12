@@ -31,18 +31,32 @@ export function renderSearchFormBlock(checkInDate?: string, checkOutDate?: strin
           </div>
           <div>
             <label for="max-price">Макс. цена суток</label>
-            <input id="max-price" type="text" value="" name="price" class="max-price" />
+            <input id="max-price" type="text" value="10000" name="price" class="max-price" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="div-checkbox-search">
+            <fieldset class="fieldset">
+              <legend>Где будем искать?</legend>
+
+              <div>
+                <input type="checkbox" id="search-api" name="api"
+                      checked>
+                <label for="api">API</label>
+              </div>
+
+              <div>
+                <input type="checkbox" id="search-sdk" name="sdk">
+                <label for="sdk">SDK</label>
+              </div>
+            </fieldset>
           </div>
           <div class="div-btn-search">
-            <div><button id="btn-search">Найти</button></div>
+            <button id="btn-search">Найти</button>
           </div>
         </div>
       </fieldset>
     </form>
     `
   )
-
 }
-
-
-
